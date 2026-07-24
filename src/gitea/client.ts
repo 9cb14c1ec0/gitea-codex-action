@@ -24,4 +24,12 @@ export class ForgeClient {
     }
     throw new Error("pagination limit exceeded");
   }
+
+  async createIssueComment(owner: string, repo: string, number: number, body: string): Promise<{ id: number }> {
+    return await this.request("POST", `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/issues/${number}/comments`, { body });
+  }
+
+  async updateIssueComment(owner: string, repo: string, id: number, body: string): Promise<{ id: number }> {
+    return await this.request("PATCH", `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/issues/comments/${id}`, { body });
+  }
 }

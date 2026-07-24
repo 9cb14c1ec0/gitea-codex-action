@@ -5,12 +5,11 @@ and pull-request requests with an OpenAI coding agent. API credentials and write
 authorization remain in the trusted host process; they are never intended to be
 passed into the agent sandbox.
 
-> **Project status:** the repository currently provides the trusted foundation:
-> configuration validation, payload normalization, trigger/actor policy,
-> secret-safe logging, API transport, prompt delimiting, and workspace/branch
-> validation. Sandbox-agent execution and mutation orchestration are not yet
-> implemented, so an authorized invocation deliberately reports failure after
-> its trusted preflight checks. Do not use it for production automation yet.
+> **Project status:** read-only question and review runs are implemented. The
+> checked-out repository is staged into a Unix-local sandbox inside the runner
+> job container; the OpenAI and forge credentials are retained by the host
+> process. Branch, commit, push, and pull-request mutation tools are not yet
+> implemented.
 
 ## Setup
 
@@ -55,6 +54,7 @@ jobs:
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
           gitea_token: ${{ secrets.GITHUB_TOKEN }}
+          forge_url: ${{ github.api_url }}
           allowed_actors: your-github-login
 ```
 
@@ -88,6 +88,7 @@ jobs:
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
           gitea_token: ${{ secrets.GITEA_TOKEN }}
+          forge_url: https://git.example.com
           allowed_actors: your-gitea-login
 ```
 
@@ -101,6 +102,7 @@ to your runner's event contract. The action currently detects GitHub by
 | --- | --- | --- |
 | `openai_api_key` | required | OpenAI API key. |
 | `gitea_token` | runner token | Forge API token; defaults to `GITEA_TOKEN` or `GITHUB_TOKEN`. |
+| `forge_url` | runner URL | Gitea server URL or GitHub API URL; required to post tracking comments. |
 | `model` | `gpt-5.6-terra` | OpenAI model selected for the run. |
 | `reasoning_effort` | `medium` | `low`, `medium`, `high`, or `xhigh`. |
 | `trigger_phrase` | `@codex` | Case-insensitive text trigger. |

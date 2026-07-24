@@ -5,7 +5,7 @@ const csv = z.string().transform((value) => value.split(",").map((item) => item.
 
 const schema = z.object({
   openaiApiKey: z.string().min(1, "openai_api_key is required"),
-  giteaToken: z.string(), model: z.string().min(1),
+  giteaToken: z.string(), forgeUrl: z.string(), model: z.string().min(1),
   reasoningEffort: z.enum(["low", "medium", "high", "xhigh"]),
   triggerPhrase: z.string().min(1), assigneeTrigger: z.string(), labelTrigger: z.string(),
   allowedActors: csv, baseBranch: z.string(), branchPrefix: z.string().regex(/^[A-Za-z0-9._/-]+\/$/, "branch_prefix must end in /"),
@@ -20,7 +20,7 @@ const input = (name: string, fallback = "") => process.env[`INPUT_${name}`] ?? f
 
 export function loadConfig(): Config {
   return schema.parse({
-    openaiApiKey: input("OPENAI_API_KEY"), giteaToken: input("GITEA_TOKEN", process.env.GITEA_TOKEN ?? process.env.GITHUB_TOKEN ?? ""),
+    openaiApiKey: input("OPENAI_API_KEY"), giteaToken: input("GITEA_TOKEN", process.env.GITEA_TOKEN ?? process.env.GITHUB_TOKEN ?? ""), forgeUrl: input("FORGE_URL", process.env.GITEA_URL ?? process.env.GITHUB_API_URL ?? ""),
     model: input("MODEL", "gpt-5.6-terra"), reasoningEffort: input("REASONING_EFFORT", "medium"),
     triggerPhrase: input("TRIGGER_PHRASE", "@codex"), assigneeTrigger: input("ASSIGNEE_TRIGGER"), labelTrigger: input("LABEL_TRIGGER"),
     allowedActors: input("ALLOWED_ACTORS"), baseBranch: input("BASE_BRANCH"), branchPrefix: input("BRANCH_PREFIX", "codex/"),

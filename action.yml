@@ -4,6 +4,7 @@ author: OpenAI
 inputs:
   openai_api_key: { description: OpenAI API key, required: true }
   gitea_token: { description: API token (defaults to runner token), required: false, default: "" }
+  forge_url: { description: Gitea server URL (defaults to GITEA_URL) or GitHub API URL, required: false, default: "" }
   model: { description: OpenAI model, required: false, default: gpt-5.6-terra }
   reasoning_effort: { description: Model reasoning effort, required: false, default: medium }
   trigger_phrase: { description: Mention that starts the action, required: false, default: "@codex" }
@@ -36,6 +37,7 @@ runs:
       env:
         INPUT_OPENAI_API_KEY: ${{ inputs.openai_api_key }}
         INPUT_GITEA_TOKEN: ${{ inputs.gitea_token }}
+        INPUT_FORGE_URL: ${{ inputs.forge_url }}
         INPUT_MODEL: ${{ inputs.model }}
         INPUT_REASONING_EFFORT: ${{ inputs.reasoning_effort }}
         INPUT_TRIGGER_PHRASE: ${{ inputs.trigger_phrase }}
