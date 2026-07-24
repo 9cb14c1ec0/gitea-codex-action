@@ -1,0 +1,53 @@
+name: Gitea Codex Action
+description: Securely respond to Gitea and GitHub issues and pull requests with an OpenAI coding agent.
+author: OpenAI
+inputs:
+  openai_api_key: { description: OpenAI API key, required: true }
+  gitea_token: { description: API token (defaults to runner token), required: false, default: "" }
+  model: { description: OpenAI model, required: false, default: gpt-5.6-terra }
+  reasoning_effort: { description: Model reasoning effort, required: false, default: medium }
+  trigger_phrase: { description: Mention that starts the action, required: false, default: "@codex" }
+  assignee_trigger: { description: Optional assignee login trigger, required: false, default: "" }
+  label_trigger: { description: Optional label trigger, required: false, default: "" }
+  allowed_actors: { description: Comma-separated authorized actors, required: false, default: "" }
+  base_branch: { description: Base branch override, required: false, default: "" }
+  branch_prefix: { description: Prefix for bot branches, required: false, default: "codex/" }
+  custom_instructions: { description: Additional trusted operator instructions, required: false, default: "" }
+  max_turns: { description: Maximum agent turns, required: false, default: "25" }
+  timeout_minutes: { description: Overall timeout, required: false, default: "30" }
+  sandbox_mode: { description: Sandbox access mode, required: false, default: workspace-write }
+  allow_network: { description: Allow sandbox network access, required: false, default: "false" }
+  git_name: { description: Commit author name, required: false, default: Codex }
+  git_email: { description: Commit author email, required: false, default: codex-bot@users.noreply.local }
+outputs:
+  triggered: { description: Whether the event matched }
+  conclusion: { description: success, failure, or skipped }
+  comment_id: { description: Tracking-comment identifier }
+  branch: { description: Branch used or created }
+  pull_request_number: { description: Created pull request number }
+  input_tokens: { description: Model input tokens }
+  output_tokens: { description: Model output tokens }
+  estimated_cost_usd: { description: Optional estimated cost }
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: node "${{ github.action_path }}/dist/index.js"
+      env:
+        INPUT_OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+        INPUT_GITEA_TOKEN: ${{ inputs.gitea_token }}
+        INPUT_MODEL: ${{ inputs.model }}
+        INPUT_REASONING_EFFORT: ${{ inputs.reasoning_effort }}
+        INPUT_TRIGGER_PHRASE: ${{ inputs.trigger_phrase }}
+        INPUT_ASSIGNEE_TRIGGER: ${{ inputs.assignee_trigger }}
+        INPUT_LABEL_TRIGGER: ${{ inputs.label_trigger }}
+        INPUT_ALLOWED_ACTORS: ${{ inputs.allowed_actors }}
+        INPUT_BASE_BRANCH: ${{ inputs.base_branch }}
+        INPUT_BRANCH_PREFIX: ${{ inputs.branch_prefix }}
+        INPUT_CUSTOM_INSTRUCTIONS: ${{ inputs.custom_instructions }}
+        INPUT_MAX_TURNS: ${{ inputs.max_turns }}
+        INPUT_TIMEOUT_MINUTES: ${{ inputs.timeout_minutes }}
+        INPUT_SANDBOX_MODE: ${{ inputs.sandbox_mode }}
+        INPUT_ALLOW_NETWORK: ${{ inputs.allow_network }}
+        INPUT_GIT_NAME: ${{ inputs.git_name }}
+        INPUT_GIT_EMAIL: ${{ inputs.git_email }}

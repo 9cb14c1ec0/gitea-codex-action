@@ -1,0 +1,31 @@
+{
+  "name": "gitea-codex-action",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A secure OpenAI coding-agent action for Gitea and GitHub",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --target node22 --out-dir dist --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check": "npm run typecheck && npm run lint && npm test"
+  },
+  "dependencies": {
+    "@openai/agents": "0.13.5",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.4",
+    "@types/node": "24.10.1",
+    "eslint": "9.39.4",
+    "prettier": "3.7.4",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.56.1",
+    "vitest": "4.1.10"
+  }
+}
