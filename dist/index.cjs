@@ -33673,6 +33673,12 @@ function file2(args) {
     ...args
   };
 }
+function localFile(args) {
+  return {
+    type: "local_file",
+    ...args
+  };
+}
 function localDir(args) {
   return {
     type: "local_dir",
@@ -51616,10 +51622,7 @@ var require_websocket_server = __commonJS({
 });
 
 // src/index.ts
-var import_promises4 = require("node:fs/promises");
-
-// src/agent/runner.ts
-var import_node_path6 = __toESM(require("node:path"), 1);
+var import_promises5 = require("node:fs/promises");
 
 // node_modules/@openai/agents-core/dist/index.mjs
 init_tracing();
@@ -71525,6 +71528,22 @@ init_errors6();
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/docker.mjs
 var DOCKER_CONTAINER_START_TIMEOUT_MS = 2 * 6e4;
 
+// src/workspace/sandbox.ts
+var import_promises4 = require("node:fs/promises");
+var import_node_path6 = __toESM(require("node:path"), 1);
+var EXCLUDED = /* @__PURE__ */ new Set([".git"]);
+async function stageRepository(workspace) {
+  const root = import_node_path6.default.resolve(workspace);
+  const children = {};
+  for (const item of await (0, import_promises4.readdir)(root, { withFileTypes: true })) {
+    if (EXCLUDED.has(item.name)) continue;
+    const src = import_node_path6.default.join(root, item.name);
+    if (item.isDirectory()) children[item.name] = localDir({ src });
+    else if (item.isFile()) children[item.name] = localFile({ src });
+  }
+  return dir({ children });
+}
+
 // src/agent/instructions.ts
 var BASE = [
   "You are a read-only repository assistant. Inspect files only under repo/.",
@@ -71542,7 +71561,7 @@ ${config2.customInstructions}` : BASE;
 // src/agent/runner.ts
 async function runReadOnlyAgent(config2, prompt2, workspace) {
   setDefaultOpenAIKey(config2.openaiApiKey);
-  const manifest = new Manifest({ entries: { repo: localDir({ src: import_node_path6.default.resolve(workspace) }) } });
+  const manifest = new Manifest({ entries: { repo: await stageRepository(workspace) } });
   const agent = new SandboxAgent({
     name: "Repository assistant",
     model: config2.model,
@@ -71911,7 +71930,7 @@ var run2 = (0, import_node_util.promisify)(import_node_child_process4.execFile);
 var DEFAULT_DEPTH = 20;
 var isSafeRef = (ref) => /^[A-Za-z0-9][A-Za-z0-9._/-]*$/.test(ref) && !ref.includes("..");
 var git = async (workspace, args) => {
-  await run2("git", args, { cwd: workspace });
+  await run2("git", ["-c", "gc.auto=0", ...args], { cwd: workspace });
 };
 async function checkoutPullRequest(workspace, number5, headRef, depth = DEFAULT_DEPTH) {
   const candidates = [`refs/pull/${number5}/head`, ...headRef && isSafeRef(headRef) ? [headRef] : []];
@@ -71932,6 +71951,7 @@ function log(message) {
   process.stdout.write(`${redactSecrets(message)}
 `);
 }
+var triggered = false;
 function jobUrl() {
   const { GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env;
   return GITHUB_SERVER_URL && GITHUB_REPOSITORY && GITHUB_RUN_ID ? `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}` : void 0;
@@ -71941,7 +71961,7 @@ async function main() {
   const eventPath = process.env.GITHUB_EVENT_PATH ?? process.env.GITEA_EVENT_PATH;
   const eventName = process.env.GITHUB_EVENT_NAME ?? process.env.GITEA_EVENT_NAME;
   if (!eventPath || !eventName) throw new Error("event path and event name are required");
-  const payload = JSON.parse(await (0, import_promises4.readFile)(eventPath, "utf8"));
+  const payload = JSON.parse(await (0, import_promises5.readFile)(eventPath, "utf8"));
   const platform = process.env.GITHUB_ACTIONS === "true" ? "github" : "gitea";
   const context = normalizeEvent(platform, eventName, payload, process.env.GITHUB_DELIVERY);
   const trigger = matchTrigger(context, config2), auth = authorize(context, config2);
@@ -71950,6 +71970,7 @@ async function main() {
     writeOutputs({ triggered: false, conclusion: "skipped", inputTokens: 0, outputTokens: 0 });
     return;
   }
+  triggered = true;
   const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
   const { owner, name } = context.repository;
   const number5 = context.pullRequest?.number ?? context.issue?.number;
@@ -71979,6 +72000,6 @@ async function main() {
 }
 main().catch((error51) => {
   log(error51 instanceof Error ? error51.message : "unknown error");
-  writeOutputs({ triggered: false, conclusion: "failure", inputTokens: 0, outputTokens: 0 });
+  writeOutputs({ triggered, conclusion: "failure", inputTokens: 0, outputTokens: 0 });
   process.exitCode = 1;
 });

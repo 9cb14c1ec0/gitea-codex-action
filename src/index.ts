@@ -14,6 +14,9 @@ import { checkoutPullRequest } from "./workspace/branch.js";
 
 function log(message: string): void { process.stdout.write(`${redactSecrets(message)}\n`); }
 
+/** Tracked so a failure after the trigger matched still reports `triggered=true`. */
+let triggered = false;
+
 function jobUrl(): string | undefined {
   const { GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env;
   return GITHUB_SERVER_URL && GITHUB_REPOSITORY && GITHUB_RUN_ID ? `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}` : undefined;
@@ -33,6 +36,7 @@ async function main(): Promise<void> {
     writeOutputs({ triggered: false, conclusion: "skipped", inputTokens: 0, outputTokens: 0 });
     return;
   }
+  triggered = true;
   const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
   const { owner, name } = context.repository;
   const number = context.pullRequest?.number ?? context.issue?.number;
@@ -64,4 +68,4 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((error: unknown) => { log(error instanceof Error ? error.message : "unknown error"); writeOutputs({ triggered: false, conclusion: "failure", inputTokens: 0, outputTokens: 0 }); process.exitCode = 1; });
+main().catch((error: unknown) => { log(error instanceof Error ? error.message : "unknown error"); writeOutputs({ triggered, conclusion: "failure", inputTokens: 0, outputTokens: 0 }); process.exitCode = 1; });

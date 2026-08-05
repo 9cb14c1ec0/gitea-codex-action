@@ -7,7 +7,8 @@ export const DEFAULT_DEPTH = 20;
 /** Refs come from the forge API, so reject anything that could be read as a git option or traversal. */
 export const isSafeRef = (ref: string) => /^[A-Za-z0-9][A-Za-z0-9._/-]*$/.test(ref) && !ref.includes("..");
 
-const git = async (workspace: string, args: string[]): Promise<void> => { await run("git", args, { cwd: workspace }); };
+// gc.auto=0: a background repack rewrites pack files, which breaks the sandbox materializer's stability check.
+const git = async (workspace: string, args: string[]): Promise<void> => { await run("git", ["-c", "gc.auto=0", ...args], { cwd: workspace }); };
 
 /**
  * Put the pull request revision in the working tree. `issue_comment` events check out the
