@@ -24,8 +24,7 @@ async function main(): Promise<void> {
     return;
   }
   const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
-  const apiBase = resolveApiBase(config.forgeUrl);
-  const client = config.giteaToken && context.issue ? new ForgeClient(apiBase, config.giteaToken) : undefined;
+  const client = config.giteaToken && context.issue ? new ForgeClient(resolveApiBase(config.forgeUrl), config.giteaToken) : undefined;
   let commentId: number | undefined;
   if (client && context.issue) {
     const comment = await client.createIssueComment(context.repository.owner, context.repository.name, context.issue.number, "## Codex\n\nStatus: **working**");

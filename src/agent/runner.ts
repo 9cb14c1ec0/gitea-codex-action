@@ -1,5 +1,5 @@
 import path from "node:path";
-import { Runner } from "@openai/agents";
+import { Runner, setDefaultOpenAIKey } from "@openai/agents";
 import { SandboxAgent, Manifest, localDir } from "@openai/agents/sandbox";
 import { UnixLocalSandboxClient } from "@openai/agents/sandbox/local";
 import type { Config } from "../config.js";
@@ -9,6 +9,8 @@ import { untrusted } from "../prompt/sanitizer.js";
 export type AgentRun = { answer: string; inputTokens: number; outputTokens: number };
 
 export async function runReadOnlyAgent(config: Config, context: NormalizedContext, workspace: string): Promise<AgentRun> {
+  // The SDK otherwise falls back to process.env.OPENAI_API_KEY, which the action never sets.
+  setDefaultOpenAIKey(config.openaiApiKey);
   const manifest = new Manifest({ entries: { repo: localDir({ src: path.resolve(workspace) }) } });
   const agent = new SandboxAgent({
     name: "Repository assistant", model: config.model,

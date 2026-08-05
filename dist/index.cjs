@@ -62823,6 +62823,9 @@ function shouldUseResponsesWebSocketByDefault() {
 function getDefaultOpenAIClient() {
   return _defaultOpenAIClient;
 }
+function setDefaultOpenAIKey(key) {
+  _defaultOpenAIKey = key;
+}
 function getDefaultOpenAIKey() {
   return _defaultOpenAIKey ?? loadEnv().OPENAI_API_KEY;
 }
@@ -71539,6 +71542,7 @@ ${truncate(redactSecrets(value), maxLength)}
 
 // src/agent/runner.ts
 async function runReadOnlyAgent(config2, context, workspace) {
+  setDefaultOpenAIKey(config2.openaiApiKey);
   const manifest = new Manifest({ entries: { repo: localDir({ src: import_node_path6.default.resolve(workspace) }) } });
   const agent = new SandboxAgent({
     name: "Repository assistant",
@@ -71757,8 +71761,7 @@ async function main() {
     return;
   }
   const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
-  const apiBase = resolveApiBase(config2.forgeUrl);
-  const client = config2.giteaToken && context.issue ? new ForgeClient(apiBase, config2.giteaToken) : void 0;
+  const client = config2.giteaToken && context.issue ? new ForgeClient(resolveApiBase(config2.forgeUrl), config2.giteaToken) : void 0;
   let commentId;
   if (client && context.issue) {
     const comment = await client.createIssueComment(context.repository.owner, context.repository.name, context.issue.number, "## Codex\n\nStatus: **working**");
