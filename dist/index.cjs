@@ -1,15 +1,10 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
-  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-}) : x)(function(x) {
-  if (typeof require !== "undefined") return require.apply(this, arguments);
-  throw Error('Dynamic require of "' + x + '" is not supported');
-});
 var __esm = (fn, res, err) => function __init() {
   if (err) throw err[0];
   try {
@@ -18,7 +13,7 @@ var __esm = (fn, res, err) => function __init() {
     throw err = [e], e;
   }
 };
-var __commonJS = (cb, mod) => function __require2() {
+var __commonJS = (cb, mod) => function __require() {
   try {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   } catch (e) {
@@ -52,7 +47,6 @@ __export(config_node_exports, {
   isBrowserEnvironment: () => isBrowserEnvironment,
   loadEnv: () => loadEnv
 });
-import * as process2 from "node:process";
 function loadEnv() {
   if (typeof process2 === "undefined" || typeof process2.env === "undefined") {
     try {
@@ -69,8 +63,10 @@ function loadEnv() {
 function isBrowserEnvironment() {
   return false;
 }
+var process2;
 var init_config_node = __esm({
   "node_modules/@openai/agents-core/dist/shims/config-node.mjs"() {
+    process2 = __toESM(require("node:process"), 1);
   }
 });
 
@@ -20970,14 +20966,14 @@ var init_protocol = __esm({
 
 // node_modules/ms/index.js
 var require_ms = __commonJS({
-  "node_modules/ms/index.js"(exports, module) {
+  "node_modules/ms/index.js"(exports2, module2) {
     var s = 1e3;
     var m = s * 60;
     var h = m * 60;
     var d = h * 24;
     var w = d * 7;
     var y = d * 365.25;
-    module.exports = function(val, options) {
+    module2.exports = function(val, options) {
       options = options || {};
       var type = typeof val;
       if (type === "string" && val.length > 0) {
@@ -21086,7 +21082,7 @@ var require_ms = __commonJS({
 
 // node_modules/debug/src/common.js
 var require_common = __commonJS({
-  "node_modules/debug/src/common.js"(exports, module) {
+  "node_modules/debug/src/common.js"(exports2, module2) {
     function setup(env2) {
       createDebug.debug = createDebug;
       createDebug.default = createDebug;
@@ -21257,19 +21253,19 @@ var require_common = __commonJS({
       createDebug.enable(createDebug.load());
       return createDebug;
     }
-    module.exports = setup;
+    module2.exports = setup;
   }
 });
 
 // node_modules/debug/src/browser.js
 var require_browser = __commonJS({
-  "node_modules/debug/src/browser.js"(exports, module) {
-    exports.formatArgs = formatArgs;
-    exports.save = save;
-    exports.load = load;
-    exports.useColors = useColors;
-    exports.storage = localstorage();
-    exports.destroy = /* @__PURE__ */ (() => {
+  "node_modules/debug/src/browser.js"(exports2, module2) {
+    exports2.formatArgs = formatArgs;
+    exports2.save = save;
+    exports2.load = load;
+    exports2.useColors = useColors;
+    exports2.storage = localstorage();
+    exports2.destroy = /* @__PURE__ */ (() => {
       let warned = false;
       return () => {
         if (!warned) {
@@ -21278,7 +21274,7 @@ var require_browser = __commonJS({
         }
       };
     })();
-    exports.colors = [
+    exports2.colors = [
       "#0000CC",
       "#0000FF",
       "#0033CC",
@@ -21371,7 +21367,7 @@ var require_browser = __commonJS({
       typeof navigator !== "undefined" && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/);
     }
     function formatArgs(args) {
-      args[0] = (this.useColors ? "%c" : "") + this.namespace + (this.useColors ? " %c" : " ") + args[0] + (this.useColors ? "%c " : " ") + "+" + module.exports.humanize(this.diff);
+      args[0] = (this.useColors ? "%c" : "") + this.namespace + (this.useColors ? " %c" : " ") + args[0] + (this.useColors ? "%c " : " ") + "+" + module2.exports.humanize(this.diff);
       if (!this.useColors) {
         return;
       }
@@ -21390,14 +21386,14 @@ var require_browser = __commonJS({
       });
       args.splice(lastC, 0, c);
     }
-    exports.log = console.debug || console.log || (() => {
+    exports2.log = console.debug || console.log || (() => {
     });
     function save(namespaces) {
       try {
         if (namespaces) {
-          exports.storage.setItem("debug", namespaces);
+          exports2.storage.setItem("debug", namespaces);
         } else {
-          exports.storage.removeItem("debug");
+          exports2.storage.removeItem("debug");
         }
       } catch (error51) {
       }
@@ -21405,7 +21401,7 @@ var require_browser = __commonJS({
     function load() {
       let r;
       try {
-        r = exports.storage.getItem("debug") || exports.storage.getItem("DEBUG");
+        r = exports2.storage.getItem("debug") || exports2.storage.getItem("DEBUG");
       } catch (error51) {
       }
       if (!r && typeof process !== "undefined" && "env" in process) {
@@ -21419,8 +21415,8 @@ var require_browser = __commonJS({
       } catch (error51) {
       }
     }
-    module.exports = require_common()(exports);
-    var { formatters: formatters2 } = module.exports;
+    module2.exports = require_common()(exports2);
+    var { formatters: formatters2 } = module2.exports;
     formatters2.j = function(v) {
       try {
         return JSON.stringify(v);
@@ -21433,9 +21429,9 @@ var require_browser = __commonJS({
 
 // node_modules/has-flag/index.js
 var require_has_flag = __commonJS({
-  "node_modules/has-flag/index.js"(exports, module) {
+  "node_modules/has-flag/index.js"(exports2, module2) {
     "use strict";
-    module.exports = (flag, argv = process.argv) => {
+    module2.exports = (flag, argv = process.argv) => {
       const prefix = flag.startsWith("-") ? "" : flag.length === 1 ? "-" : "--";
       const position = argv.indexOf(prefix + flag);
       const terminatorPosition = argv.indexOf("--");
@@ -21446,10 +21442,10 @@ var require_has_flag = __commonJS({
 
 // node_modules/supports-color/index.js
 var require_supports_color = __commonJS({
-  "node_modules/supports-color/index.js"(exports, module) {
+  "node_modules/supports-color/index.js"(exports2, module2) {
     "use strict";
-    var os = __require("os");
-    var tty = __require("tty");
+    var os = require("os");
+    var tty = require("tty");
     var hasFlag = require_has_flag();
     var { env: env2 } = process;
     var forceColor;
@@ -21538,7 +21534,7 @@ var require_supports_color = __commonJS({
       const level = supportsColor(stream, stream && stream.isTTY);
       return translateLevel(level);
     }
-    module.exports = {
+    module2.exports = {
       supportsColor: getSupportLevel,
       stdout: translateLevel(supportsColor(true, tty.isatty(1))),
       stderr: translateLevel(supportsColor(true, tty.isatty(2)))
@@ -21548,25 +21544,25 @@ var require_supports_color = __commonJS({
 
 // node_modules/debug/src/node.js
 var require_node = __commonJS({
-  "node_modules/debug/src/node.js"(exports, module) {
-    var tty = __require("tty");
-    var util2 = __require("util");
-    exports.init = init;
-    exports.log = log2;
-    exports.formatArgs = formatArgs;
-    exports.save = save;
-    exports.load = load;
-    exports.useColors = useColors;
-    exports.destroy = util2.deprecate(
+  "node_modules/debug/src/node.js"(exports2, module2) {
+    var tty = require("tty");
+    var util2 = require("util");
+    exports2.init = init;
+    exports2.log = log2;
+    exports2.formatArgs = formatArgs;
+    exports2.save = save;
+    exports2.load = load;
+    exports2.useColors = useColors;
+    exports2.destroy = util2.deprecate(
       () => {
       },
       "Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`."
     );
-    exports.colors = [6, 2, 3, 4, 5, 1];
+    exports2.colors = [6, 2, 3, 4, 5, 1];
     try {
       const supportsColor = require_supports_color();
       if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
-        exports.colors = [
+        exports2.colors = [
           20,
           21,
           26,
@@ -21647,7 +21643,7 @@ var require_node = __commonJS({
       }
     } catch (error51) {
     }
-    exports.inspectOpts = Object.keys(process.env).filter((key) => {
+    exports2.inspectOpts = Object.keys(process.env).filter((key) => {
       return /^debug_/i.test(key);
     }).reduce((obj, key) => {
       const prop = key.substring(6).toLowerCase().replace(/_([a-z])/g, (_, k) => {
@@ -21667,7 +21663,7 @@ var require_node = __commonJS({
       return obj;
     }, {});
     function useColors() {
-      return "colors" in exports.inspectOpts ? Boolean(exports.inspectOpts.colors) : tty.isatty(process.stderr.fd);
+      return "colors" in exports2.inspectOpts ? Boolean(exports2.inspectOpts.colors) : tty.isatty(process.stderr.fd);
     }
     function formatArgs(args) {
       const { namespace: name, useColors: useColors2 } = this;
@@ -21676,19 +21672,19 @@ var require_node = __commonJS({
         const colorCode = "\x1B[3" + (c < 8 ? c : "8;5;" + c);
         const prefix = `  ${colorCode};1m${name} \x1B[0m`;
         args[0] = prefix + args[0].split("\n").join("\n" + prefix);
-        args.push(colorCode + "m+" + module.exports.humanize(this.diff) + "\x1B[0m");
+        args.push(colorCode + "m+" + module2.exports.humanize(this.diff) + "\x1B[0m");
       } else {
         args[0] = getDate() + name + " " + args[0];
       }
     }
     function getDate() {
-      if (exports.inspectOpts.hideDate) {
+      if (exports2.inspectOpts.hideDate) {
         return "";
       }
       return (/* @__PURE__ */ new Date()).toISOString() + " ";
     }
     function log2(...args) {
-      return process.stderr.write(util2.formatWithOptions(exports.inspectOpts, ...args) + "\n");
+      return process.stderr.write(util2.formatWithOptions(exports2.inspectOpts, ...args) + "\n");
     }
     function save(namespaces) {
       if (namespaces) {
@@ -21702,13 +21698,13 @@ var require_node = __commonJS({
     }
     function init(debug3) {
       debug3.inspectOpts = {};
-      const keys = Object.keys(exports.inspectOpts);
+      const keys = Object.keys(exports2.inspectOpts);
       for (let i = 0; i < keys.length; i++) {
-        debug3.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
+        debug3.inspectOpts[keys[i]] = exports2.inspectOpts[keys[i]];
       }
     }
-    module.exports = require_common()(exports);
-    var { formatters: formatters2 } = module.exports;
+    module2.exports = require_common()(exports2);
+    var { formatters: formatters2 } = module2.exports;
     formatters2.o = function(v) {
       this.inspectOpts.colors = this.useColors;
       return util2.inspect(v, this.inspectOpts).split("\n").map((str2) => str2.trim()).join(" ");
@@ -21722,11 +21718,11 @@ var require_node = __commonJS({
 
 // node_modules/debug/src/index.js
 var require_src = __commonJS({
-  "node_modules/debug/src/index.js"(exports, module) {
+  "node_modules/debug/src/index.js"(exports2, module2) {
     if (typeof process === "undefined" || process.type === "renderer" || process.browser === true || process.__nwjs) {
-      module.exports = require_browser();
+      module2.exports = require_browser();
     } else {
-      module.exports = require_node();
+      module2.exports = require_node();
     }
   }
 });
@@ -21854,21 +21850,21 @@ var init_node = __esm({
 });
 
 // node_modules/@openai/agents-core/dist/shims/shims-node.mjs
-import { EventEmitter } from "node:events";
-import { randomUUID } from "node:crypto";
-import { Readable } from "node:stream";
-import { ReadableStream, TransformStream } from "node:stream/web";
-import { AsyncLocalStorage } from "node:async_hooks";
 function isTracingLoopRunningByDefault() {
   return true;
 }
 function supportsProcessLifecycleEvents() {
   return true;
 }
-var NodeTimer, timer;
+var import_node_events, import_node_crypto, import_node_stream, import_web, import_node_async_hooks, NodeTimer, timer;
 var init_shims_node = __esm({
   "node_modules/@openai/agents-core/dist/shims/shims-node.mjs"() {
+    import_node_events = require("node:events");
     init_config_node();
+    import_node_crypto = require("node:crypto");
+    import_node_stream = require("node:stream");
+    import_web = require("node:stream/web");
+    import_node_async_hooks = require("node:async_hooks");
     init_node();
     NodeTimer = class {
       constructor() {
@@ -23354,7 +23350,7 @@ var init_result = __esm({
         this.#combinedSignal = combinedSignal;
         this.#combinedSignalCleanup = cleanupCombinedSignal;
         this.#abortSignalSnapshot = combinedSignal;
-        this.#readableStream = new ReadableStream({
+        this.#readableStream = new import_web.ReadableStream({
           start: (controller) => {
             this.#readableController = controller;
           },
@@ -23448,7 +23444,7 @@ var init_result = __esm({
         return this.#error;
       }
       toTextStream(options = {}) {
-        const stream = this.#readableStream.pipeThrough(new TransformStream({
+        const stream = this.#readableStream.pipeThrough(new import_web.TransformStream({
           transform(event, controller) {
             if (event.type === "raw_model_stream_event" && event.data.type === "output_text_delta") {
               const item = StreamEventTextStream.parse(event.data);
@@ -23457,7 +23453,7 @@ var init_result = __esm({
           }
         }));
         if (options.compatibleWithNodeStreams) {
-          return Readable.fromWeb(stream);
+          return import_node_stream.Readable.fromWeb(stream);
         }
         return stream;
       }
@@ -23538,7 +23534,7 @@ function getContextAsyncLocalStorage() {
     if (globalALS) {
       return globalALS;
     }
-    const newALS = new AsyncLocalStorage();
+    const newALS = new import_node_async_hooks.AsyncLocalStorage();
     Object.defineProperty(globalScope, ALS_SYMBOL, {
       value: newALS,
       writable: true,
@@ -23547,7 +23543,7 @@ function getContextAsyncLocalStorage() {
     return newALS;
   } catch {
     if (!localFallbackAls) {
-      localFallbackAls = new AsyncLocalStorage();
+      localFallbackAls = new import_node_async_hooks.AsyncLocalStorage();
     }
     return localFallbackAls;
   }
@@ -23702,10 +23698,10 @@ function timeIso() {
   return (/* @__PURE__ */ new Date()).toISOString();
 }
 function generateTraceId() {
-  return `trace_${randomUUID().replace(/-/g, "")}`;
+  return `trace_${(0, import_node_crypto.randomUUID)().replace(/-/g, "")}`;
 }
 function generateSpanId() {
-  return `span_${randomUUID().replace(/-/g, "").slice(0, 24)}`;
+  return `span_${(0, import_node_crypto.randomUUID)().replace(/-/g, "").slice(0, 24)}`;
 }
 function removePrivateFields(obj) {
   return Object.fromEntries(Object.entries(obj).filter(([key]) => !key.startsWith("_")));
@@ -24753,10 +24749,10 @@ var init_lifecycle = __esm({
       }
     };
     AgentHooks = class extends EventEmitterDelegate {
-      eventEmitter = new EventEmitter();
+      eventEmitter = new import_node_events.EventEmitter();
     };
     RunHooks = class extends EventEmitterDelegate {
-      eventEmitter = new EventEmitter();
+      eventEmitter = new import_node_events.EventEmitter();
     };
   }
 });
@@ -39317,7 +39313,7 @@ var init_generation = __esm({
         }
         const rolloutId = resolveMemoryRolloutId({
           ...args.rolloutIdentity,
-          fallbackId: randomUUID()
+          fallbackId: (0, import_node_crypto.randomUUID)()
         });
         const payload = buildMemoryRolloutPayload(state, {
           rolloutId,
@@ -47951,12 +47947,12 @@ var init_agent2 = __esm({
 
 // node_modules/ws/lib/constants.js
 var require_constants = __commonJS({
-  "node_modules/ws/lib/constants.js"(exports, module) {
+  "node_modules/ws/lib/constants.js"(exports2, module2) {
     "use strict";
     var BINARY_TYPES = ["nodebuffer", "arraybuffer", "fragments"];
     var hasBlob = typeof Blob !== "undefined";
     if (hasBlob) BINARY_TYPES.push("blob");
-    module.exports = {
+    module2.exports = {
       BINARY_TYPES,
       CLOSE_TIMEOUT: 3e4,
       EMPTY_BUFFER: Buffer.alloc(0),
@@ -47974,7 +47970,7 @@ var require_constants = __commonJS({
 
 // node_modules/ws/lib/buffer-util.js
 var require_buffer_util = __commonJS({
-  "node_modules/ws/lib/buffer-util.js"(exports, module) {
+  "node_modules/ws/lib/buffer-util.js"(exports2, module2) {
     "use strict";
     var { EMPTY_BUFFER } = require_constants();
     var FastBuffer = Buffer[Symbol.species];
@@ -48023,7 +48019,7 @@ var require_buffer_util = __commonJS({
       }
       return buf;
     }
-    module.exports = {
+    module2.exports = {
       concat,
       mask: _mask,
       toArrayBuffer,
@@ -48032,12 +48028,12 @@ var require_buffer_util = __commonJS({
     };
     if (!process.env.WS_NO_BUFFER_UTIL) {
       try {
-        const bufferUtil = __require("bufferutil");
-        module.exports.mask = function(source, mask, output, offset, length) {
+        const bufferUtil = require("bufferutil");
+        module2.exports.mask = function(source, mask, output, offset, length) {
           if (length < 48) _mask(source, mask, output, offset, length);
           else bufferUtil.mask(source, mask, output, offset, length);
         };
-        module.exports.unmask = function(buffer, mask) {
+        module2.exports.unmask = function(buffer, mask) {
           if (buffer.length < 32) _unmask(buffer, mask);
           else bufferUtil.unmask(buffer, mask);
         };
@@ -48049,7 +48045,7 @@ var require_buffer_util = __commonJS({
 
 // node_modules/ws/lib/limiter.js
 var require_limiter = __commonJS({
-  "node_modules/ws/lib/limiter.js"(exports, module) {
+  "node_modules/ws/lib/limiter.js"(exports2, module2) {
     "use strict";
     var kDone = /* @__PURE__ */ Symbol("kDone");
     var kRun = /* @__PURE__ */ Symbol("kRun");
@@ -48093,15 +48089,15 @@ var require_limiter = __commonJS({
         }
       }
     };
-    module.exports = Limiter;
+    module2.exports = Limiter;
   }
 });
 
 // node_modules/ws/lib/permessage-deflate.js
 var require_permessage_deflate = __commonJS({
-  "node_modules/ws/lib/permessage-deflate.js"(exports, module) {
+  "node_modules/ws/lib/permessage-deflate.js"(exports2, module2) {
     "use strict";
-    var zlib = __require("zlib");
+    var zlib = require("zlib");
     var bufferUtil = require_buffer_util();
     var Limiter = require_limiter();
     var { kStatusCode } = require_constants();
@@ -48451,7 +48447,7 @@ var require_permessage_deflate = __commonJS({
         });
       }
     };
-    module.exports = PerMessageDeflate2;
+    module2.exports = PerMessageDeflate2;
     function deflateOnData(chunk) {
       this[kBuffers].push(chunk);
       this[kTotalLength] += chunk.length;
@@ -48482,9 +48478,9 @@ var require_permessage_deflate = __commonJS({
 
 // node_modules/ws/lib/validation.js
 var require_validation = __commonJS({
-  "node_modules/ws/lib/validation.js"(exports, module) {
+  "node_modules/ws/lib/validation.js"(exports2, module2) {
     "use strict";
-    var { isUtf8 } = __require("buffer");
+    var { isUtf8 } = require("buffer");
     var { hasBlob } = require_constants();
     var tokenChars = [
       0,
@@ -48659,20 +48655,20 @@ var require_validation = __commonJS({
     function isBlob(value) {
       return hasBlob && typeof value === "object" && typeof value.arrayBuffer === "function" && typeof value.type === "string" && typeof value.stream === "function" && (value[Symbol.toStringTag] === "Blob" || value[Symbol.toStringTag] === "File");
     }
-    module.exports = {
+    module2.exports = {
       isBlob,
       isValidStatusCode,
       isValidUTF8: _isValidUTF8,
       tokenChars
     };
     if (isUtf8) {
-      module.exports.isValidUTF8 = function(buf) {
+      module2.exports.isValidUTF8 = function(buf) {
         return buf.length < 24 ? _isValidUTF8(buf) : isUtf8(buf);
       };
     } else if (!process.env.WS_NO_UTF_8_VALIDATE) {
       try {
-        const isValidUTF8 = __require("utf-8-validate");
-        module.exports.isValidUTF8 = function(buf) {
+        const isValidUTF8 = require("utf-8-validate");
+        module2.exports.isValidUTF8 = function(buf) {
           return buf.length < 32 ? _isValidUTF8(buf) : isValidUTF8(buf);
         };
       } catch (e) {
@@ -48683,9 +48679,9 @@ var require_validation = __commonJS({
 
 // node_modules/ws/lib/receiver.js
 var require_receiver = __commonJS({
-  "node_modules/ws/lib/receiver.js"(exports, module) {
+  "node_modules/ws/lib/receiver.js"(exports2, module2) {
     "use strict";
-    var { Writable } = __require("stream");
+    var { Writable } = require("stream");
     var PerMessageDeflate2 = require_permessage_deflate();
     var {
       BINARY_TYPES,
@@ -49300,19 +49296,19 @@ var require_receiver = __commonJS({
         return err;
       }
     };
-    module.exports = Receiver2;
+    module2.exports = Receiver2;
   }
 });
 
 // node_modules/ws/lib/sender.js
 var require_sender = __commonJS({
-  "node_modules/ws/lib/sender.js"(exports, module) {
+  "node_modules/ws/lib/sender.js"(exports2, module2) {
     "use strict";
-    var { Duplex } = __require("stream");
-    var { randomFillSync } = __require("crypto");
+    var { Duplex } = require("stream");
+    var { randomFillSync } = require("crypto");
     var {
       types: { isUint8Array }
-    } = __require("util");
+    } = require("util");
     var PerMessageDeflate2 = require_permessage_deflate();
     var { EMPTY_BUFFER, kWebSocket, NOOP } = require_constants();
     var { isBlob, isValidStatusCode } = require_validation();
@@ -49781,7 +49777,7 @@ var require_sender = __commonJS({
         }
       }
     };
-    module.exports = Sender2;
+    module2.exports = Sender2;
     function callCallbacks(sender, err, cb) {
       if (typeof cb === "function") cb(err);
       for (let i = 0; i < sender._queue.length; i++) {
@@ -49799,7 +49795,7 @@ var require_sender = __commonJS({
 
 // node_modules/ws/lib/event-target.js
 var require_event_target = __commonJS({
-  "node_modules/ws/lib/event-target.js"(exports, module) {
+  "node_modules/ws/lib/event-target.js"(exports2, module2) {
     "use strict";
     var { kForOnEventAttribute, kListener } = require_constants();
     var kCode = /* @__PURE__ */ Symbol("kCode");
@@ -50009,7 +50005,7 @@ var require_event_target = __commonJS({
         }
       }
     };
-    module.exports = {
+    module2.exports = {
       CloseEvent,
       ErrorEvent,
       Event,
@@ -50028,7 +50024,7 @@ var require_event_target = __commonJS({
 
 // node_modules/ws/lib/extension.js
 var require_extension = __commonJS({
-  "node_modules/ws/lib/extension.js"(exports, module) {
+  "node_modules/ws/lib/extension.js"(exports2, module2) {
     "use strict";
     var { tokenChars } = require_validation();
     function push(dest, name, elem) {
@@ -50175,22 +50171,22 @@ var require_extension = __commonJS({
         }).join(", ");
       }).join(", ");
     }
-    module.exports = { format, parse: parse3 };
+    module2.exports = { format, parse: parse3 };
   }
 });
 
 // node_modules/ws/lib/websocket.js
 var require_websocket = __commonJS({
-  "node_modules/ws/lib/websocket.js"(exports, module) {
+  "node_modules/ws/lib/websocket.js"(exports2, module2) {
     "use strict";
-    var EventEmitter2 = __require("events");
-    var https = __require("https");
-    var http = __require("http");
-    var net = __require("net");
-    var tls = __require("tls");
-    var { randomBytes, createHash: createHash2 } = __require("crypto");
-    var { Duplex, Readable: Readable2 } = __require("stream");
-    var { URL: URL2 } = __require("url");
+    var EventEmitter2 = require("events");
+    var https = require("https");
+    var http = require("http");
+    var net = require("net");
+    var tls = require("tls");
+    var { randomBytes, createHash: createHash2 } = require("crypto");
+    var { Duplex, Readable: Readable2 } = require("stream");
+    var { URL: URL2 } = require("url");
     var PerMessageDeflate2 = require_permessage_deflate();
     var Receiver2 = require_receiver();
     var Sender2 = require_sender();
@@ -50659,7 +50655,7 @@ var require_websocket = __commonJS({
     });
     WebSocket2.prototype.addEventListener = addEventListener;
     WebSocket2.prototype.removeEventListener = removeEventListener;
-    module.exports = WebSocket2;
+    module2.exports = WebSocket2;
     function initAsClient(websocket, address, protocols, options) {
       const opts = {
         allowSynchronousEvents: true,
@@ -51077,10 +51073,10 @@ var require_websocket = __commonJS({
 
 // node_modules/ws/lib/stream.js
 var require_stream = __commonJS({
-  "node_modules/ws/lib/stream.js"(exports, module) {
+  "node_modules/ws/lib/stream.js"(exports2, module2) {
     "use strict";
     var WebSocket2 = require_websocket();
-    var { Duplex } = __require("stream");
+    var { Duplex } = require("stream");
     function emitClose(stream) {
       stream.emit("close");
     }
@@ -51169,13 +51165,13 @@ var require_stream = __commonJS({
       duplex.on("error", duplexOnError);
       return duplex;
     }
-    module.exports = createWebSocketStream2;
+    module2.exports = createWebSocketStream2;
   }
 });
 
 // node_modules/ws/lib/subprotocol.js
 var require_subprotocol = __commonJS({
-  "node_modules/ws/lib/subprotocol.js"(exports, module) {
+  "node_modules/ws/lib/subprotocol.js"(exports2, module2) {
     "use strict";
     var { tokenChars } = require_validation();
     function parse3(header) {
@@ -51214,18 +51210,18 @@ var require_subprotocol = __commonJS({
       protocols.add(protocol);
       return protocols;
     }
-    module.exports = { parse: parse3 };
+    module2.exports = { parse: parse3 };
   }
 });
 
 // node_modules/ws/lib/websocket-server.js
 var require_websocket_server = __commonJS({
-  "node_modules/ws/lib/websocket-server.js"(exports, module) {
+  "node_modules/ws/lib/websocket-server.js"(exports2, module2) {
     "use strict";
-    var EventEmitter2 = __require("events");
-    var http = __require("http");
-    var { Duplex } = __require("stream");
-    var { createHash: createHash2 } = __require("crypto");
+    var EventEmitter2 = require("events");
+    var http = require("http");
+    var { Duplex } = require("stream");
+    var { createHash: createHash2 } = require("crypto");
     var extension2 = require_extension();
     var PerMessageDeflate2 = require_permessage_deflate();
     var subprotocol2 = require_subprotocol();
@@ -51577,7 +51573,7 @@ var require_websocket_server = __commonJS({
         cb(ws, req);
       }
     };
-    module.exports = WebSocketServer2;
+    module2.exports = WebSocketServer2;
     function addListeners(server, map2) {
       for (const event of Object.keys(map2)) server.on(event, map2[event]);
       return function removeListeners() {
@@ -51620,10 +51616,10 @@ var require_websocket_server = __commonJS({
 });
 
 // src/index.ts
-import { readFile as readFile3 } from "node:fs/promises";
+var import_promises4 = require("node:fs/promises");
 
 // src/agent/runner.ts
-import path2 from "node:path";
+var import_node_path6 = __toESM(require("node:path"), 1);
 
 // node_modules/@openai/agents-core/dist/index.mjs
 init_tracing();
@@ -52128,7 +52124,7 @@ var MemorySession = class {
   logger;
   items;
   constructor(options = {}) {
-    this.sessionId = options.sessionId ?? randomUUID();
+    this.sessionId = options.sessionId ?? (0, import_node_crypto.randomUUID)();
     this.items = options.initialItems ? options.initialItems.map(cloneAgentItem) : [];
     this.logger = options.logger ?? logger;
   }
@@ -68999,18 +68995,18 @@ init_skills();
 init_entries();
 
 // node_modules/@openai/agents-core/dist/sandbox/shared/hostPath.mjs
-import { isAbsolute, relative, sep } from "node:path";
+var import_node_path = require("node:path");
 function relativeHostPathEscapesRoot(relativePath) {
-  return relativePath === ".." || relativePath.startsWith(`..${sep}`) || isAbsolute(relativePath);
+  return relativePath === ".." || relativePath.startsWith(`..${import_node_path.sep}`) || (0, import_node_path.isAbsolute)(relativePath);
 }
 function relativeHostPathEscapesRootOrSelf(relativePath) {
   return relativePath === "" || relativeHostPathEscapesRoot(relativePath);
 }
 function isHostPathWithinRoot(root, path3) {
-  return !relativeHostPathEscapesRoot(relative(root, path3));
+  return !relativeHostPathEscapesRoot((0, import_node_path.relative)(root, path3));
 }
 function isHostPathStrictlyWithinRoot(root, path3) {
-  return !relativeHostPathEscapesRootOrSelf(relative(root, path3));
+  return !relativeHostPathEscapesRootOrSelf((0, import_node_path.relative)(root, path3));
 }
 
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/docker.mjs
@@ -69025,11 +69021,11 @@ init_session();
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/unixLocal.mjs
 init_errors5();
 init_applyDiff();
-import { mkdir as mkdir3, mkdtemp as mkdtemp3, readFile as readFile2, readdir as readdir3, rm as rm3, stat as stat3, unlink, writeFile } from "node:fs/promises";
-import { lstatSync, realpathSync } from "node:fs";
-import { spawn as spawn3 } from "node:child_process";
-import { dirname as dirname3, isAbsolute as isAbsolute3, join as join4, relative as relative4, resolve as resolve2 } from "node:path";
-import { tmpdir as tmpdir3, userInfo } from "node:os";
+var import_promises3 = require("node:fs/promises");
+var import_node_fs4 = require("node:fs");
+var import_node_child_process3 = require("node:child_process");
+var import_node_path5 = require("node:path");
+var import_node_os3 = require("node:os");
 init_session();
 init_manifest();
 init_errors6();
@@ -69044,7 +69040,7 @@ init_permissions();
 init_workspacePaths();
 
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/shared/runProcess.mjs
-import { spawn } from "node:child_process";
+var import_node_child_process = require("node:child_process");
 var DEFAULT_MAX_OUTPUT_BYTES = 1024 * 1024;
 var FORCE_KILL_DELAY_MS = 5e3;
 async function runSandboxProcess(command, args, options = {}) {
@@ -69060,7 +69056,7 @@ async function runSandboxProcess(command, args, options = {}) {
     let timeout;
     let forceKillTimeout;
     const maxOutputBytes = options.maxOutputBytes ?? DEFAULT_MAX_OUTPUT_BYTES;
-    const child = spawn(command, args, {
+    const child = (0, import_node_child_process.spawn)(command, args, {
       cwd: options.cwd,
       env: options.env,
       stdio: ["ignore", "pipe", "pipe"]
@@ -69129,23 +69125,23 @@ function formatSandboxProcessError(result) {
 }
 
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/shared/localWorkspace.mjs
-import { chmod, chown, lstat, mkdir, mkdtemp, open, readdir, readFile, realpath, rm, stat, symlink } from "node:fs/promises";
-import { constants } from "node:fs";
-import { dirname, isAbsolute as isAbsolute2, join, relative as relative2, resolve, sep as sep2 } from "node:path";
-import { tmpdir } from "node:os";
+var import_promises = require("node:fs/promises");
+var import_node_fs = require("node:fs");
+var import_node_path2 = require("node:path");
+var import_node_os = require("node:os");
 var GIT_VERSION_TIMEOUT_MS = 1e4;
 var GIT_CLONE_TIMEOUT_MS = 5 * 6e4;
 var COMMIT_REF_PATTERN = /^[0-9a-fA-F]{7,40}$/;
-var MATERIALIZATION_FILE_WRITE_FLAGS = constants.O_WRONLY | constants.O_CREAT | constants.O_TRUNC | constants.O_NOFOLLOW;
-var LOCAL_SOURCE_FILE_READ_FLAGS = constants.O_RDONLY | constants.O_NOFOLLOW;
-var LOCAL_SOURCE_DIRECTORY_READ_FLAGS = constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_DIRECTORY;
+var MATERIALIZATION_FILE_WRITE_FLAGS = import_node_fs.constants.O_WRONLY | import_node_fs.constants.O_CREAT | import_node_fs.constants.O_TRUNC | import_node_fs.constants.O_NOFOLLOW;
+var LOCAL_SOURCE_FILE_READ_FLAGS = import_node_fs.constants.O_RDONLY | import_node_fs.constants.O_NOFOLLOW;
+var LOCAL_SOURCE_DIRECTORY_READ_FLAGS = import_node_fs.constants.O_RDONLY | import_node_fs.constants.O_NOFOLLOW | import_node_fs.constants.O_DIRECTORY;
 async function materializeLocalWorkspaceManifest(manifest, workspaceRootPath, options = {}) {
   assertLocalWorkspaceManifestMetadataSupported("Local sandbox materialization", manifest, {
     supportsMount: options.supportsMount,
     allowLocalBindMounts: options.allowLocalBindMounts,
     allowIdentityMetadata: options.allowIdentityMetadata
   });
-  await mkdir(workspaceRootPath, { recursive: true });
+  await (0, import_promises.mkdir)(workspaceRootPath, { recursive: true });
   await materializeEntries(workspaceRootPath, manifest.entries, "", {
     ...options,
     manifestRoot: manifest.root,
@@ -69179,7 +69175,7 @@ async function materializeLocalWorkspaceManifestEntry(workspaceRootPath, logical
     await materializeLocalBindMountEntry(workspaceRootPath, logicalPath, entry, options);
     return;
   }
-  const destination = logicalPath ? resolve(workspaceRootPath, logicalPath) : workspaceRootPath;
+  const destination = logicalPath ? (0, import_node_path2.resolve)(workspaceRootPath, logicalPath) : workspaceRootPath;
   switch (entry.type) {
     case "dir":
       await materializeDirEntry(workspaceRootPath, destination, entry, logicalPath, options);
@@ -69216,25 +69212,25 @@ async function materializeLocalWorkspaceManifestMounts(manifest, workspaceRootPa
   }
 }
 async function applyOwnershipRecursive(targetPath, uid, gid) {
-  const info = await lstat(targetPath).catch(() => null);
+  const info = await (0, import_promises.lstat)(targetPath).catch(() => null);
   if (!info) {
     return;
   }
   if (info.isSymbolicLink()) {
     return;
   }
-  await chown(targetPath, uid, gid);
+  await (0, import_promises.chown)(targetPath, uid, gid);
   if (!info.isDirectory()) {
     return;
   }
-  const children = await readdir(targetPath);
+  const children = await (0, import_promises.readdir)(targetPath);
   await Promise.all(children.map(async (child) => {
-    await applyOwnershipRecursive(join(targetPath, child), uid, gid);
+    await applyOwnershipRecursive((0, import_node_path2.join)(targetPath, child), uid, gid);
   }));
 }
 async function pathExists(path3) {
   try {
-    await stat(path3);
+    await (0, import_promises.stat)(path3);
     return true;
   } catch {
     return false;
@@ -69274,10 +69270,10 @@ async function materializeLocalBindMountEntry(workspaceRootPath, logicalPath, en
   if (entry.readOnly !== false) {
     throw new SandboxUnsupportedFeatureError(`Local sandbox materialization cannot enforce read-only local bind mounts: ${logicalPath || "."}`);
   }
-  const source = await realpath(entry.source).catch(() => {
+  const source = await (0, import_promises.realpath)(entry.source).catch(() => {
     throw new UserError(`Local bind mount source does not exist: ${entry.source}`);
   });
-  const sourceInfo = await lstat(source);
+  const sourceInfo = await (0, import_promises.lstat)(source);
   if (!sourceInfo.isDirectory()) {
     throw new UserError(`Local bind mount source must be a directory: ${source}`);
   }
@@ -69285,13 +69281,13 @@ async function materializeLocalBindMountEntry(workspaceRootPath, logicalPath, en
   if (!mountLogicalPath) {
     throw new SandboxUnsupportedFeatureError("Local sandbox materialization does not support mounting over the workspace root.");
   }
-  const destination = resolve(workspaceRootPath, mountLogicalPath);
+  const destination = (0, import_node_path2.resolve)(workspaceRootPath, mountLogicalPath);
   await createMaterializationParentDirectory(workspaceRootPath, destination, mountLogicalPath);
-  await rm(destination, { recursive: true, force: true });
-  await symlink(source, destination, "dir");
+  await (0, import_promises.rm)(destination, { recursive: true, force: true });
+  await (0, import_promises.symlink)(source, destination, "dir");
 }
 function isSupportedLocalBindMount(entry) {
-  return entry.type === "mount" && typeof entry.source === "string" && isAbsolute2(entry.source) && (entry.mountStrategy === void 0 || entry.mountStrategy.type === "local_bind");
+  return entry.type === "mount" && typeof entry.source === "string" && (0, import_node_path2.isAbsolute)(entry.source) && (entry.mountStrategy === void 0 || entry.mountStrategy.type === "local_bind");
 }
 function resolveMountLogicalPath(root, logicalPath, mountPath) {
   if (mountPath === void 0) {
@@ -69307,21 +69303,21 @@ function resolveMountLogicalPath(root, logicalPath, mountPath) {
 }
 async function createMaterializationDirectory(workspaceRootPath, destination, logicalPath) {
   await assertSafeMaterializationPath(workspaceRootPath, destination, logicalPath);
-  await mkdir(destination, { recursive: true });
+  await (0, import_promises.mkdir)(destination, { recursive: true });
   await assertSafeMaterializationPath(workspaceRootPath, destination, logicalPath);
 }
 async function createMaterializationParentDirectory(workspaceRootPath, destination, logicalPath) {
-  const parent = dirname(destination);
+  const parent = (0, import_node_path2.dirname)(destination);
   await assertSafeMaterializationPath(workspaceRootPath, parent, logicalPath);
-  await mkdir(parent, { recursive: true });
+  await (0, import_promises.mkdir)(parent, { recursive: true });
   await assertSafeMaterializationPath(workspaceRootPath, parent, logicalPath);
   await assertSafeMaterializationPath(workspaceRootPath, destination, logicalPath);
 }
 async function assertSafeMaterializationPath(workspaceRootPath, destination, logicalPath) {
-  const workspaceRootRealPath = await realpath(workspaceRootPath).catch(() => {
+  const workspaceRootRealPath = await (0, import_promises.realpath)(workspaceRootPath).catch(() => {
     throw materializationEscapesWorkspaceError(logicalPath);
   });
-  const relativeDestination = relative2(workspaceRootPath, destination);
+  const relativeDestination = (0, import_node_path2.relative)(workspaceRootPath, destination);
   if (relativeHostPathEscapesRoot(relativeDestination)) {
     throw materializationEscapesWorkspaceError(logicalPath);
   }
@@ -69329,12 +69325,12 @@ async function assertSafeMaterializationPath(workspaceRootPath, destination, log
     return;
   }
   let current = workspaceRootPath;
-  for (const segment of relativeDestination.split(sep2)) {
+  for (const segment of relativeDestination.split(import_node_path2.sep)) {
     if (!segment) {
       continue;
     }
-    current = join(current, segment);
-    const info = await lstat(current).catch((error51) => {
+    current = (0, import_node_path2.join)(current, segment);
+    const info = await (0, import_promises.lstat)(current).catch((error51) => {
       if (error51.code === "ENOENT") {
         return void 0;
       }
@@ -69346,7 +69342,7 @@ async function assertSafeMaterializationPath(workspaceRootPath, destination, log
     if (info.isSymbolicLink()) {
       throw new UserError(`Sandbox materialization path "${logicalPath || "."}" escapes the workspace root through a symbolic link.`);
     }
-    const currentRealPath = await realpath(current).catch(() => {
+    const currentRealPath = await (0, import_promises.realpath)(current).catch(() => {
       throw materializationEscapesWorkspaceError(logicalPath);
     });
     if (!isHostPathWithinRoot(workspaceRootRealPath, currentRealPath)) {
@@ -69372,9 +69368,9 @@ async function materializeLocalDirEntry(workspaceRootPath, destination, entry, l
   await copyLocalDirectory(resolveLocalSourcePath("local_dir", entry.src, options), destination, options, workspaceRootPath, logicalPath);
 }
 function resolveLocalSourcePath(entryType, sourcePath, options) {
-  const base = resolve(options.localSourceBaseDir ?? process.cwd());
-  const resolvedSourcePath = resolve(base, sourcePath);
-  if (isHostPathWithinRoot(base, resolvedSourcePath) || (options.localSourceGrants ?? []).some((grant) => isHostPathWithinRoot(resolve(grant.path), resolvedSourcePath))) {
+  const base = (0, import_node_path2.resolve)(options.localSourceBaseDir ?? process.cwd());
+  const resolvedSourcePath = (0, import_node_path2.resolve)(base, sourcePath);
+  if (isHostPathWithinRoot(base, resolvedSourcePath) || (options.localSourceGrants ?? []).some((grant) => isHostPathWithinRoot((0, import_node_path2.resolve)(grant.path), resolvedSourcePath))) {
     return resolvedSourcePath;
   }
   throw new UserError(`${entryType} source must stay within the local source base directory or manifest.extraPathGrants: ${resolvedSourcePath} (base: ${base})`);
@@ -69384,8 +69380,8 @@ async function copyLocalDirectory(sourceDir, destination, options, workspaceRoot
   await createMaterializationDirectory(workspaceRootPath, destination, logicalPath);
   const children = await readStableLocalDirEntries(sourceDir, source.stat);
   await runLimited(children, resolveLocalDirEntryConcurrency(options.concurrencyLimits), async (child) => {
-    const sourcePath = join(sourceDir, child.name);
-    const destinationPath = join(destination, child.name);
+    const sourcePath = (0, import_node_path2.join)(sourceDir, child.name);
+    const destinationPath = (0, import_node_path2.join)(destination, child.name);
     const childLogicalPath = joinLogicalPath(logicalPath, child.name);
     if (child.isDirectory()) {
       const childSourceStat = await assertStableLocalDirChild(source.root, sourcePath);
@@ -69405,7 +69401,7 @@ async function writeMaterializationFile(workspaceRootPath, destination, logicalP
   await assertSafeMaterializationPath(workspaceRootPath, destination, logicalPath);
   let handle;
   try {
-    handle = await open(destination, MATERIALIZATION_FILE_WRITE_FLAGS);
+    handle = await (0, import_promises.open)(destination, MATERIALIZATION_FILE_WRITE_FLAGS);
   } catch (error51) {
     if (isPathChangedError(error51)) {
       throw materializationEscapesWorkspaceError(logicalPath);
@@ -69434,7 +69430,7 @@ async function resolveStableLocalDirSource(sourceDir, expectedSourceStat) {
   const sourceRoot = await realpathStableLocalSourcePath(sourceDir);
   let handle;
   try {
-    handle = await open(sourceDir, LOCAL_SOURCE_DIRECTORY_READ_FLAGS);
+    handle = await (0, import_promises.open)(sourceDir, LOCAL_SOURCE_DIRECTORY_READ_FLAGS);
   } catch (error51) {
     if (isPathChangedError(error51)) {
       throw localDirPathChangedError(sourceDir);
@@ -69454,7 +69450,7 @@ async function resolveStableLocalDirSource(sourceDir, expectedSourceStat) {
 async function readStableLocalDirEntries(sourceDir, expectedStat) {
   let children;
   try {
-    children = await readdir(sourceDir, { withFileTypes: true });
+    children = await (0, import_promises.readdir)(sourceDir, { withFileTypes: true });
   } catch (error51) {
     if (isPathChangedError(error51)) {
       throw localDirPathChangedError(sourceDir);
@@ -69481,7 +69477,7 @@ async function readStableLocalFile(sourcePath) {
   }
   let handle;
   try {
-    handle = await open(sourcePath, LOCAL_SOURCE_FILE_READ_FLAGS);
+    handle = await (0, import_promises.open)(sourcePath, LOCAL_SOURCE_FILE_READ_FLAGS);
   } catch (error51) {
     if (isPathChangedError(error51)) {
       throw localFilePathChangedError(sourcePath);
@@ -69499,16 +69495,16 @@ async function readStableLocalFile(sourcePath) {
   }
 }
 async function assertNoLocalSourceSymlinkAncestors(sourcePath, entryType, pathChangedError) {
-  const resolvedPath = resolve(sourcePath);
-  let current = dirname(resolvedPath);
-  while (current !== dirname(current)) {
-    const parent = dirname(current);
-    if (parent === dirname(parent)) {
+  const resolvedPath = (0, import_node_path2.resolve)(sourcePath);
+  let current = (0, import_node_path2.dirname)(resolvedPath);
+  while (current !== (0, import_node_path2.dirname)(current)) {
+    const parent = (0, import_node_path2.dirname)(current);
+    if (parent === (0, import_node_path2.dirname)(parent)) {
       break;
     }
     let currentStat;
     try {
-      currentStat = await lstat(current);
+      currentStat = await (0, import_promises.lstat)(current);
     } catch (error51) {
       if (isPathChangedError(error51)) {
         throw pathChangedError(sourcePath);
@@ -69535,7 +69531,7 @@ async function readStableLocalDirFile(sourceRoot, sourcePath) {
   }
   let handle;
   try {
-    handle = await open(sourcePath, LOCAL_SOURCE_FILE_READ_FLAGS);
+    handle = await (0, import_promises.open)(sourcePath, LOCAL_SOURCE_FILE_READ_FLAGS);
   } catch (error51) {
     if (isPathChangedError(error51)) {
       throw localDirPathChangedError(sourcePath);
@@ -69554,7 +69550,7 @@ async function readStableLocalDirFile(sourceRoot, sourcePath) {
 }
 async function statStableLocalSourcePath(sourcePath, pathChangedError = localDirPathChangedError) {
   try {
-    return await lstat(sourcePath);
+    return await (0, import_promises.lstat)(sourcePath);
   } catch (error51) {
     if (isPathChangedError(error51)) {
       throw pathChangedError(sourcePath);
@@ -69564,7 +69560,7 @@ async function statStableLocalSourcePath(sourcePath, pathChangedError = localDir
 }
 async function realpathStableLocalSourcePath(sourcePath, pathChangedError = localDirPathChangedError) {
   try {
-    return await realpath(sourcePath);
+    return await (0, import_promises.realpath)(sourcePath);
   } catch (error51) {
     if (isPathChangedError(error51)) {
       throw pathChangedError(sourcePath);
@@ -69607,10 +69603,10 @@ async function materializeGitRepoEntry(workspaceRootPath, destination, entry, lo
   }
   const repository = normalizeGitRepository(entry);
   const cloneIntoTemporaryDirectory = Boolean(entry.subpath) || Boolean(entry.ref && looksLikeCommitRef(entry.ref));
-  const cloneDestination = cloneIntoTemporaryDirectory ? await mkdtemp(join(tmpdir(), "openai-agents-git-repo-")) : destination;
+  const cloneDestination = cloneIntoTemporaryDirectory ? await (0, import_promises.mkdtemp)((0, import_node_path2.join)((0, import_node_os.tmpdir)(), "openai-agents-git-repo-")) : destination;
   try {
     if (cloneIntoTemporaryDirectory) {
-      await mkdir(dirname(cloneDestination), { recursive: true });
+      await (0, import_promises.mkdir)((0, import_node_path2.dirname)(cloneDestination), { recursive: true });
     } else {
       await createMaterializationParentDirectory(workspaceRootPath, cloneDestination, logicalPath);
     }
@@ -69622,28 +69618,28 @@ async function materializeGitRepoEntry(workspaceRootPath, destination, entry, lo
       await assertSafeMaterializationPath(workspaceRootPath, destination, logicalPath);
       return;
     }
-    const sourcePath = entry.subpath ? resolve(cloneDestination, entry.subpath) : cloneDestination;
+    const sourcePath = entry.subpath ? (0, import_node_path2.resolve)(cloneDestination, entry.subpath) : cloneDestination;
     if (entry.subpath) {
-      const cloneRoot = await realpath(cloneDestination);
-      const subpathRealpath = await realpath(sourcePath);
+      const cloneRoot = await (0, import_promises.realpath)(cloneDestination);
+      const subpathRealpath = await (0, import_promises.realpath)(sourcePath);
       if (!isHostPathStrictlyWithinRoot(cloneRoot, subpathRealpath)) {
         throw new UserError(`git_repo subpath escapes the cloned repository: ${entry.subpath}`);
       }
     }
-    const sourceInfo = await lstat(sourcePath);
+    const sourceInfo = await (0, import_promises.lstat)(sourcePath);
     if (sourceInfo.isDirectory()) {
       await copyLocalDirectory(sourcePath, destination, {}, workspaceRootPath, logicalPath);
       return;
     }
     if (sourceInfo.isFile()) {
       await createMaterializationParentDirectory(workspaceRootPath, destination, logicalPath);
-      await writeMaterializationFile(workspaceRootPath, destination, logicalPath, await readFile(sourcePath));
+      await writeMaterializationFile(workspaceRootPath, destination, logicalPath, await (0, import_promises.readFile)(sourcePath));
       return;
     }
     throw new UserError(`git_repo subpath must resolve to a file or directory: ${entry.subpath}`);
   } finally {
     if (cloneIntoTemporaryDirectory) {
-      await rm(cloneDestination, { recursive: true, force: true });
+      await (0, import_promises.rm)(cloneDestination, { recursive: true, force: true });
     }
   }
 }
@@ -69655,7 +69651,7 @@ async function cloneGitRepo(repository, destination, ref) {
   if (result.status === 0) {
     return { result };
   }
-  await rm(destination, { recursive: true, force: true });
+  await (0, import_promises.rm)(destination, { recursive: true, force: true });
   return {
     result: await cloneNamedRef(repository, destination, ref),
     commitFetchError: result
@@ -69741,7 +69737,7 @@ function joinLogicalPath(parent, child) {
 async function applyEntryPermissions(workspaceRootPath, destination, entry, logicalPath) {
   await assertSafeMaterializationPath(workspaceRootPath, destination, logicalPath);
   const permissions = permissionsForSandboxEntry(entry.permissions);
-  await chmod(destination, permissions.toMode() & 511);
+  await (0, import_promises.chmod)(destination, permissions.toMode() & 511);
 }
 function materializationEscapesWorkspaceError(logicalPath) {
   return new UserError(`Sandbox materialization path "${logicalPath || "."}" escapes the workspace root.`);
@@ -69866,7 +69862,7 @@ ${truncated}`,
 }
 function formatExecResponse(args) {
   const lines = [
-    `Chunk ID: ${randomUUID().replace(/-/g, "").slice(0, 6)}`,
+    `Chunk ID: ${(0, import_node_crypto.randomUUID)().replace(/-/g, "").slice(0, 6)}`,
     `Wall time: ${args.wallTimeSeconds.toFixed(4)} seconds`
   ];
   if (typeof args.sessionId === "number") {
@@ -69942,43 +69938,43 @@ function approximateTokenCountFromBytes(bytes) {
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/shared/localSnapshots.mjs
 init_errors5();
 init_errors6();
+var import_promises2 = require("node:fs/promises");
+var import_node_fs2 = require("node:fs");
+var import_node_crypto2 = require("node:crypto");
+var import_node_path4 = require("node:path");
 init_stableJson();
 init_typeGuards2();
-import { lstat as lstat2, mkdir as mkdir2, mkdtemp as mkdtemp2, open as open2, readdir as readdir2, realpath as realpath2, rm as rm2, stat as stat2 } from "node:fs/promises";
-import { constants as constants2 } from "node:fs";
-import { createHash, randomUUID as randomUUID2 } from "node:crypto";
-import { dirname as dirname2, join as join3, relative as relative3, sep as sep3 } from "node:path";
 
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/shared/localSnapshotPaths.mjs
-import { homedir, tmpdir as tmpdir2 } from "node:os";
-import { join as join2 } from "node:path";
+var import_node_os2 = require("node:os");
+var import_node_path3 = require("node:path");
 function defaultLocalSnapshotBaseDir() {
   const configured = process.env.OPENAI_AGENTS_SANDBOX_SNAPSHOT_DIR?.trim();
   if (configured) {
     return configured;
   }
-  const home = homedir();
+  const home = (0, import_node_os2.homedir)();
   if (process.platform === "darwin" && home) {
-    return join2(home, "Library", "Application Support", "openai-agents-js", "sandbox-snapshots");
+    return (0, import_node_path3.join)(home, "Library", "Application Support", "openai-agents-js", "sandbox-snapshots");
   }
   if (process.platform === "win32") {
     const localAppData = process.env.LOCALAPPDATA?.trim();
-    return join2(localAppData || (home ? join2(home, "AppData", "Local") : tmpdir2()), "openai-agents-js", "sandbox-snapshots");
+    return (0, import_node_path3.join)(localAppData || (home ? (0, import_node_path3.join)(home, "AppData", "Local") : (0, import_node_os2.tmpdir)()), "openai-agents-js", "sandbox-snapshots");
   }
   const stateHome = process.env.XDG_STATE_HOME?.trim();
-  return join2(stateHome || (home ? join2(home, ".local", "state") : tmpdir2()), "openai-agents-js", "sandbox-snapshots");
+  return (0, import_node_path3.join)(stateHome || (home ? (0, import_node_path3.join)(home, ".local", "state") : (0, import_node_os2.tmpdir)()), "openai-agents-js", "sandbox-snapshots");
 }
 
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/shared/localSnapshots.mjs
 init_manifestPersistence();
 var LOCAL_SNAPSHOT_FINGERPRINT_VERSION = "workspace_tree_sha256_v1";
-var SNAPSHOT_FILE_READ_FLAGS = constants2.O_RDONLY | constants2.O_NOFOLLOW;
-var SNAPSHOT_FILE_WRITE_FLAGS = constants2.O_WRONLY | constants2.O_CREAT | constants2.O_TRUNC | constants2.O_NOFOLLOW;
+var SNAPSHOT_FILE_READ_FLAGS = import_node_fs2.constants.O_RDONLY | import_node_fs2.constants.O_NOFOLLOW;
+var SNAPSHOT_FILE_WRITE_FLAGS = import_node_fs2.constants.O_WRONLY | import_node_fs2.constants.O_CREAT | import_node_fs2.constants.O_TRUNC | import_node_fs2.constants.O_NOFOLLOW;
 async function createLocalSnapshot(state, spec) {
   const snapshotPath = await mkdtempForSnapshot(spec);
   await copyDirectory(state.workspaceRootPath, snapshotPath, localSnapshotExcludedPaths(state));
   return {
-    id: randomUUID2(),
+    id: (0, import_node_crypto2.randomUUID)(),
     type: "local",
     path: snapshotPath
   };
@@ -70057,7 +70053,7 @@ async function replaceLocalSnapshot(state, snapshot) {
   const previousSnapshot = state.snapshot;
   state.snapshot = snapshot;
   if (previousSnapshot?.type === "local" && previousSnapshot.path !== snapshot?.path && previousSnapshot.path !== state.workspaceRootPath) {
-    await rm2(previousSnapshot.path, { recursive: true, force: true });
+    await (0, import_promises2.rm)(previousSnapshot.path, { recursive: true, force: true });
   }
   if (previousSnapshot?.type === "remote" && previousSnapshot.id !== snapshot?.id) {
     const store = remoteSnapshotStoreFromSpec(state);
@@ -70109,7 +70105,7 @@ async function restoreLocalSnapshotToWorkspace(state, workspaceRootPath, options
   return state;
 }
 async function computeLocalSnapshotFingerprint(state) {
-  const hash2 = createHash("sha256");
+  const hash2 = (0, import_node_crypto2.createHash)("sha256");
   appendHashFrame(hash2, "version", LOCAL_SNAPSHOT_FINGERPRINT_VERSION);
   appendHashFrame(hash2, "manifest", stableJsonStringify(serializeManifest(state.manifest), {
     encodeBytes: (value) => ({
@@ -70133,16 +70129,16 @@ function localSnapshotExcludedPaths(state) {
 async function copyDirectory(sourceRoot, destinationRoot, excludedLogicalPaths = /* @__PURE__ */ new Set(), currentRelativePath = "", expectedSourceStats, destinationRootPath = destinationRoot) {
   const entries = await readStableSnapshotDirectoryEntries(sourceRoot, expectedSourceStats);
   await assertSafeSnapshotDestinationPath(destinationRootPath, destinationRoot);
-  await mkdir2(destinationRoot, { recursive: true });
+  await (0, import_promises2.mkdir)(destinationRoot, { recursive: true });
   await assertSafeSnapshotDestinationPath(destinationRootPath, destinationRoot);
   for (const entry of entries) {
     const relativePath = currentRelativePath ? `${currentRelativePath}/${entry.name}` : entry.name;
     if (shouldSkipSnapshotPath(relativePath, excludedLogicalPaths)) {
       continue;
     }
-    const sourcePath = join3(sourceRoot, entry.name);
-    const destinationPath = join3(destinationRoot, entry.name);
-    const sourceStats = await lstat2(sourcePath);
+    const sourcePath = (0, import_node_path4.join)(sourceRoot, entry.name);
+    const destinationPath = (0, import_node_path4.join)(destinationRoot, entry.name);
+    const sourceStats = await (0, import_promises2.lstat)(sourcePath);
     if (sourceStats.isDirectory()) {
       await copyDirectory(sourcePath, destinationPath, excludedLogicalPaths, relativePath, sourceStats, destinationRootPath);
       continue;
@@ -70150,13 +70146,13 @@ async function copyDirectory(sourceRoot, destinationRoot, excludedLogicalPaths =
     if (!sourceStats.isFile()) {
       continue;
     }
-    await assertSafeSnapshotDestinationPath(destinationRootPath, dirname2(destinationPath));
-    await mkdir2(dirname2(destinationPath), { recursive: true });
-    await assertSafeSnapshotDestinationPath(destinationRootPath, dirname2(destinationPath));
+    await assertSafeSnapshotDestinationPath(destinationRootPath, (0, import_node_path4.dirname)(destinationPath));
+    await (0, import_promises2.mkdir)((0, import_node_path4.dirname)(destinationPath), { recursive: true });
+    await assertSafeSnapshotDestinationPath(destinationRootPath, (0, import_node_path4.dirname)(destinationPath));
     await writeStableSnapshotFile(destinationRootPath, destinationPath, await readStableSnapshotFile(sourcePath, sourceStats), sourceStats.mode & 511);
-    const destinationStats = await lstat2(destinationPath);
+    const destinationStats = await (0, import_promises2.lstat)(destinationPath);
     if (!destinationStats.isFile()) {
-      await rm2(destinationPath, { recursive: true, force: true });
+      await (0, import_promises2.rm)(destinationPath, { recursive: true, force: true });
     }
   }
 }
@@ -70176,8 +70172,8 @@ async function appendWorkspaceArchiveEntries(archive, sourceRoot, excludedLogica
     if (shouldSkipSnapshotPath(relativePath, excludedLogicalPaths)) {
       continue;
     }
-    const sourcePath = join3(sourceRoot, entry.name);
-    const sourceStats = await lstat2(sourcePath);
+    const sourcePath = (0, import_node_path4.join)(sourceRoot, entry.name);
+    const sourceStats = await (0, import_promises2.lstat)(sourcePath);
     if (sourceStats.isDirectory()) {
       archive.directories.push(relativePath);
       await appendWorkspaceArchiveEntries(archive, sourcePath, excludedLogicalPaths, relativePath, sourceStats);
@@ -70201,7 +70197,7 @@ async function restoreWorkspaceArchive(data, destinationRoot, options = {}) {
     throw new UserError("Unsupported remote snapshot archive version.");
   }
   validateWorkspaceArchiveLimits(archive, archiveLimits);
-  await mkdir2(destinationRoot, { recursive: true });
+  await (0, import_promises2.mkdir)(destinationRoot, { recursive: true });
   await clearDirectory(destinationRoot);
   for (const directory of archive.directories) {
     await writeSafeArchiveDirectory(destinationRoot, directory);
@@ -70268,18 +70264,18 @@ function checkWorkspaceArchiveExtractedBytes(actual, member, limits) {
 async function writeSafeArchiveDirectory(destinationRoot, relativePath) {
   const destinationPath = safeArchivePath(destinationRoot, relativePath);
   await assertSafeSnapshotDestinationPath(destinationRoot, destinationPath);
-  await mkdir2(destinationPath, { recursive: true });
+  await (0, import_promises2.mkdir)(destinationPath, { recursive: true });
   await assertSafeSnapshotDestinationPath(destinationRoot, destinationPath);
 }
 async function writeSafeArchiveFile(destinationRoot, relativePath, base64Data) {
   const destinationPath = safeArchivePath(destinationRoot, relativePath);
-  await assertSafeSnapshotDestinationPath(destinationRoot, dirname2(destinationPath));
-  await mkdir2(dirname2(destinationPath), { recursive: true });
-  await assertSafeSnapshotDestinationPath(destinationRoot, dirname2(destinationPath));
+  await assertSafeSnapshotDestinationPath(destinationRoot, (0, import_node_path4.dirname)(destinationPath));
+  await (0, import_promises2.mkdir)((0, import_node_path4.dirname)(destinationPath), { recursive: true });
+  await assertSafeSnapshotDestinationPath(destinationRoot, (0, import_node_path4.dirname)(destinationPath));
   await writeStableSnapshotFile(destinationRoot, destinationPath, Buffer.from(base64Data, "base64"));
 }
 function safeArchivePath(destinationRoot, relativePath) {
-  const destinationPath = join3(destinationRoot, relativePath);
+  const destinationPath = (0, import_node_path4.join)(destinationRoot, relativePath);
   if (!isHostPathStrictlyWithinRoot(destinationRoot, destinationPath)) {
     throw new UserError(`Remote snapshot archive path escapes root: ${relativePath}`);
   }
@@ -70287,16 +70283,16 @@ function safeArchivePath(destinationRoot, relativePath) {
 }
 async function replaceDirectoryContents(sourceRoot, destinationRoot) {
   await assertSafeSnapshotDestinationPath(destinationRoot, destinationRoot);
-  await mkdir2(destinationRoot, { recursive: true });
+  await (0, import_promises2.mkdir)(destinationRoot, { recursive: true });
   await assertSafeSnapshotDestinationPath(destinationRoot, destinationRoot);
   await clearDirectory(destinationRoot);
   await copyDirectory(sourceRoot, destinationRoot);
 }
 async function clearDirectory(destinationRoot) {
   await assertSafeSnapshotDestinationPath(destinationRoot, destinationRoot);
-  const entries = await readdir2(destinationRoot);
+  const entries = await (0, import_promises2.readdir)(destinationRoot);
   await Promise.all(entries.map(async (entry) => {
-    await rm2(join3(destinationRoot, entry), { recursive: true, force: true });
+    await (0, import_promises2.rm)((0, import_node_path4.join)(destinationRoot, entry), { recursive: true, force: true });
   }));
 }
 function replaceLocalSnapshotFingerprint(state, fingerprint) {
@@ -70305,8 +70301,8 @@ function replaceLocalSnapshotFingerprint(state, fingerprint) {
 }
 async function mkdtempForSnapshot(spec) {
   const baseDir = spec?.baseDir ?? defaultLocalSnapshotBaseDir();
-  await mkdir2(baseDir, { recursive: true });
-  return await mkdtemp2(join3(baseDir, "openai-agents-sandbox-snapshot-"));
+  await (0, import_promises2.mkdir)(baseDir, { recursive: true });
+  return await (0, import_promises2.mkdtemp)((0, import_node_path4.join)(baseDir, "openai-agents-sandbox-snapshot-"));
 }
 function shouldSkipSnapshotPath(relativePath, excludedLogicalPaths) {
   for (const excluded of excludedLogicalPaths) {
@@ -70326,7 +70322,7 @@ function remoteSnapshotStoreFromSpec(state) {
 }
 async function pathExists2(path3) {
   try {
-    await stat2(path3);
+    await (0, import_promises2.stat)(path3);
     return true;
   } catch {
     return false;
@@ -70339,8 +70335,8 @@ async function hashDirectory(hash2, rootPath, excludedLogicalPaths, currentRelat
     if (shouldSkipSnapshotPath(relativePath, excludedLogicalPaths)) {
       continue;
     }
-    const entryPath = join3(rootPath, entry.name);
-    const entryStats = await lstat2(entryPath);
+    const entryPath = (0, import_node_path4.join)(rootPath, entry.name);
+    const entryStats = await (0, import_promises2.lstat)(entryPath);
     if (entryStats.isDirectory()) {
       appendHashFrame(hash2, "dir", relativePath);
       await hashDirectory(hash2, entryPath, excludedLogicalPaths, relativePath, entryStats);
@@ -70356,28 +70352,28 @@ async function hashDirectory(hash2, rootPath, excludedLogicalPaths, currentRelat
   }
 }
 async function readStableSnapshotDirectoryEntries(sourceRoot, expectedSourceStats) {
-  const sourceStats = await lstat2(sourceRoot);
+  const sourceStats = await (0, import_promises2.lstat)(sourceRoot);
   if (!sourceStats.isDirectory() || expectedSourceStats && !sameFilesystemEntry2(sourceStats, expectedSourceStats)) {
     throw snapshotPathChangedError(sourceRoot);
   }
-  const entries = await readdir2(sourceRoot, { withFileTypes: true });
+  const entries = await (0, import_promises2.readdir)(sourceRoot, { withFileTypes: true });
   await assertStableSnapshotDirectory(sourceRoot, sourceStats);
   return entries;
 }
 async function assertStableSnapshotDirectory(sourceRoot, expectedSourceStats) {
-  const sourceStats = await lstat2(sourceRoot);
+  const sourceStats = await (0, import_promises2.lstat)(sourceRoot);
   if (!sourceStats.isDirectory() || !sameFilesystemEntry2(sourceStats, expectedSourceStats)) {
     throw snapshotPathChangedError(sourceRoot);
   }
 }
 async function readStableSnapshotFile(sourcePath, expectedSourceStats) {
-  const sourceStats = await lstat2(sourcePath);
+  const sourceStats = await (0, import_promises2.lstat)(sourcePath);
   if (!sourceStats.isFile() || !sameFilesystemEntry2(sourceStats, expectedSourceStats)) {
     throw snapshotPathChangedError(sourcePath);
   }
   let handle;
   try {
-    handle = await open2(sourcePath, SNAPSHOT_FILE_READ_FLAGS);
+    handle = await (0, import_promises2.open)(sourcePath, SNAPSHOT_FILE_READ_FLAGS);
   } catch (error51) {
     if (isPathChangedError2(error51)) {
       throw snapshotPathChangedError(sourcePath);
@@ -70398,7 +70394,7 @@ async function writeStableSnapshotFile(destinationRoot, destinationPath, content
   await assertSafeSnapshotDestinationPath(destinationRoot, destinationPath);
   let handle;
   try {
-    handle = await open2(destinationPath, SNAPSHOT_FILE_WRITE_FLAGS, mode);
+    handle = await (0, import_promises2.open)(destinationPath, SNAPSHOT_FILE_WRITE_FLAGS, mode);
   } catch (error51) {
     if (isPathChangedError2(error51)) {
       throw snapshotPathChangedError(destinationPath);
@@ -70416,14 +70412,14 @@ async function writeStableSnapshotFile(destinationRoot, destinationPath, content
   await assertSafeSnapshotDestinationPath(destinationRoot, destinationPath);
 }
 async function assertSafeSnapshotDestinationPath(destinationRoot, destinationPath) {
-  const rootStats = await lstat2(destinationRoot).catch(() => void 0);
+  const rootStats = await (0, import_promises2.lstat)(destinationRoot).catch(() => void 0);
   if (!rootStats?.isDirectory() || rootStats.isSymbolicLink()) {
     throw snapshotPathChangedError(destinationRoot);
   }
-  const rootRealPath = await realpath2(destinationRoot).catch(() => {
+  const rootRealPath = await (0, import_promises2.realpath)(destinationRoot).catch(() => {
     throw snapshotPathChangedError(destinationRoot);
   });
-  const relativeDestination = relative3(destinationRoot, destinationPath);
+  const relativeDestination = (0, import_node_path4.relative)(destinationRoot, destinationPath);
   if (relativeHostPathEscapesRoot(relativeDestination)) {
     throw snapshotPathChangedError(destinationPath);
   }
@@ -70431,12 +70427,12 @@ async function assertSafeSnapshotDestinationPath(destinationRoot, destinationPat
     return;
   }
   let current = destinationRoot;
-  for (const segment of relativeDestination.split(sep3)) {
+  for (const segment of relativeDestination.split(import_node_path4.sep)) {
     if (!segment) {
       continue;
     }
-    current = join3(current, segment);
-    const currentStats = await lstat2(current).catch((error51) => {
+    current = (0, import_node_path4.join)(current, segment);
+    const currentStats = await (0, import_promises2.lstat)(current).catch((error51) => {
       if (error51.code === "ENOENT") {
         return void 0;
       }
@@ -70448,7 +70444,7 @@ async function assertSafeSnapshotDestinationPath(destinationRoot, destinationPat
     if (currentStats.isSymbolicLink()) {
       throw snapshotPathChangedError(current);
     }
-    const currentRealPath = await realpath2(current).catch(() => {
+    const currentRealPath = await (0, import_promises2.realpath)(current).catch(() => {
       throw snapshotPathChangedError(current);
     });
     if (!isHostPathWithinRoot(rootRealPath, currentRealPath)) {
@@ -70475,8 +70471,8 @@ function appendHashFrame(hash2, label, value) {
 }
 
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/shared/pty.mjs
+var import_node_child_process2 = require("node:child_process");
 init_errors6();
-import { spawn as spawn2, spawnSync } from "node:child_process";
 var PTY_BRIDGE_UID_ENV = "__OPENAI_AGENTS_PTY_UID";
 var PTY_BRIDGE_GID_ENV = "__OPENAI_AGENTS_PTY_GID";
 var PTY_BRIDGE_PYTHON_CHECK_SCRIPT = String.raw`
@@ -70593,7 +70589,7 @@ function spawnInPseudoTerminal(executable, args, options = {}) {
   if (typeof options.gid === "number") {
     env2[PTY_BRIDGE_GID_ENV] = String(options.gid);
   }
-  return spawn2(pythonExecutable, ["-c", PTY_BRIDGE_SCRIPT, executable, ...args], {
+  return (0, import_node_child_process2.spawn)(pythonExecutable, ["-c", PTY_BRIDGE_SCRIPT, executable, ...args], {
     cwd: options.cwd,
     env: env2,
     stdio: "pipe"
@@ -70604,7 +70600,7 @@ function assertPtyBridgePythonAvailable(pythonExecutable, options) {
   if (checkedPtyBridgePythonExecutables.has(cacheKey)) {
     return;
   }
-  const result = spawnSync(pythonExecutable, ["-c", PTY_BRIDGE_PYTHON_CHECK_SCRIPT], {
+  const result = (0, import_node_child_process2.spawnSync)(pythonExecutable, ["-c", PTY_BRIDGE_PYTHON_CHECK_SCRIPT], {
     cwd: options.cwd,
     env: options.env,
     stdio: "pipe"
@@ -70624,7 +70620,7 @@ function assertPtyBridgePythonAvailable(pythonExecutable, options) {
 }
 
 // node_modules/@openai/agents-core/dist/sandbox/sandboxes/shared/shellCommand.mjs
-import { existsSync } from "node:fs";
+var import_node_fs3 = require("node:fs");
 function resolveLocalShellCommand(args) {
   const configuredShell = firstNonEmpty(args.shell, args.defaultShell, args.envShell);
   if (configuredShell) {
@@ -70645,7 +70641,7 @@ function shellCommand(shellPath, login2) {
   };
 }
 function firstExistingPath(paths) {
-  return paths.find((path3) => existsSync(path3));
+  return paths.find((path3) => (0, import_node_fs3.existsSync)(path3));
 }
 function firstNonEmpty(...values) {
   return values.find((value) => value !== void 0 && value.trim().length > 0);
@@ -70833,14 +70829,14 @@ var UnixLocalSandboxSession = class {
   async viewImage(args) {
     await this.resolveFilesystemRunAs(args.runAs);
     const filePath = this.resolveSandboxPath(args.path);
-    const info = await stat3(filePath).catch(() => {
+    const info = await (0, import_promises3.stat)(filePath).catch(() => {
       throw new UserError(`Image file not found: ${args.path}`);
     });
     if (!info.isFile()) {
       throw new UserError(`Image path is not a file: ${args.path}`);
     }
     assertViewImageByteLength(args.path, info.size);
-    const bytes = await readFile2(filePath);
+    const bytes = await (0, import_promises3.readFile)(filePath);
     return imageOutputFromBytes(args.path, bytes);
   }
   async pathExists(path3, runAs) {
@@ -70849,7 +70845,7 @@ var UnixLocalSandboxSession = class {
   }
   async readFile(args) {
     await this.resolveFilesystemRunAs(args.runAs);
-    const bytes = await readFile2(this.resolveSandboxPath(args.path));
+    const bytes = await (0, import_promises3.readFile)(this.resolveSandboxPath(args.path));
     if (typeof args.maxBytes === "number" && bytes.byteLength > args.maxBytes) {
       return bytes.subarray(0, args.maxBytes);
     }
@@ -70858,7 +70854,7 @@ var UnixLocalSandboxSession = class {
   async listDir(args) {
     await this.resolveFilesystemRunAs(args.runAs);
     const logicalPath = this.resolveLogicalPath(args.path);
-    const entries = await readdir3(this.resolveSandboxPath(args.path), {
+    const entries = await (0, import_promises3.readdir)(this.resolveSandboxPath(args.path), {
       withFileTypes: true
     });
     return entries.map((entry) => ({
@@ -70919,7 +70915,7 @@ var UnixLocalSandboxSession = class {
     this.closed = true;
     await this.stopActiveProcesses();
     if (this.state.workspaceRootOwned) {
-      await rm3(this.state.workspaceRootPath, { recursive: true, force: true });
+      await (0, import_promises3.rm)(this.state.workspaceRootPath, { recursive: true, force: true });
     }
   }
   async stopActiveProcesses() {
@@ -70953,8 +70949,8 @@ var UnixLocalSandboxSession = class {
     if (mountPath) {
       return mountPath;
     }
-    const resolvedPath = resolve2(this.state.workspaceRootPath, workspaceRelativePath);
-    const relativeToRoot = relative4(this.state.workspaceRootPath, resolvedPath);
+    const resolvedPath = (0, import_node_path5.resolve)(this.state.workspaceRootPath, workspaceRelativePath);
+    const relativeToRoot = (0, import_node_path5.relative)(this.state.workspaceRootPath, resolvedPath);
     if (relativeHostPathEscapesRoot(relativeToRoot)) {
       throw new UserError(`Sandbox path "${path3}" escapes the workspace root.`);
     }
@@ -70992,7 +70988,7 @@ var UnixLocalSandboxSession = class {
         throw new UserError(`Sandbox path "${path3}" is inside a read-only local bind mount.`);
       }
       const childPath = workspaceRelativePath === mountRelativePath ? "" : workspaceRelativePath.slice(mountRelativePath.length + 1);
-      const resolvedPath = childPath ? resolve2(source, childPath) : source;
+      const resolvedPath = childPath ? (0, import_node_path5.resolve)(source, childPath) : source;
       return validateResolvedHostPath({
         path: path3,
         resolvedPath,
@@ -71045,7 +71041,7 @@ var UnixLocalSandboxSession = class {
         } : {}
       });
     }
-    return spawn3(shellPath, [flag, command], {
+    return (0, import_node_child_process3.spawn)(shellPath, [flag, command], {
       cwd: args.cwd,
       env: env2,
       ...runAs ? {
@@ -71098,7 +71094,7 @@ var UnixLocalSandboxSession = class {
       return void 0;
     }
     const requestedUser = runAs.trim();
-    const currentUser = userInfo().username;
+    const currentUser = (0, import_node_os3.userInfo)().username;
     const currentUid = typeof process.getuid === "function" ? process.getuid() : void 0;
     const currentGid = typeof process.getgid === "function" ? process.getgid() : void 0;
     if (requestedUser === currentUser && currentUid !== void 0 && currentGid !== void 0) {
@@ -71212,7 +71208,7 @@ var UnixLocalSandboxClient = class {
       ...createArgs.archiveLimits !== void 0 ? { archiveLimits: createArgs.archiveLimits } : {}
     };
     assertLocalWorkspaceManifestMetadataSupported("UnixLocalSandboxClient", manifest);
-    const workspaceRootPath = await mkdtemp3(join4(resolvedOptions.workspaceBaseDir ?? tmpdir3(), "openai-agents-sandbox-"));
+    const workspaceRootPath = await (0, import_promises3.mkdtemp)((0, import_node_path5.join)(resolvedOptions.workspaceBaseDir ?? (0, import_node_os3.tmpdir)(), "openai-agents-sandbox-"));
     await materializeLocalWorkspaceManifest(manifest, workspaceRootPath, {
       concurrencyLimits: resolvedOptions.concurrencyLimits
     });
@@ -71274,7 +71270,7 @@ var UnixLocalSandboxClient = class {
     if (!await localSnapshotIsRestorable(state)) {
       throw new UserError("UnixLocal sandbox workspace is unavailable and no local snapshot could be restored.");
     }
-    const workspaceRootPath = await mkdtemp3(join4(this.options.workspaceBaseDir ?? tmpdir3(), "openai-agents-sandbox-"));
+    const workspaceRootPath = await (0, import_promises3.mkdtemp)((0, import_node_path5.join)(this.options.workspaceBaseDir ?? (0, import_node_os3.tmpdir)(), "openai-agents-sandbox-"));
     return await restoreSnapshotAndMounts({
       ...state,
       workspaceRootPath,
@@ -71294,7 +71290,7 @@ function localBindMountSource(entry) {
   if (entry.mountStrategy !== void 0 && entry.mountStrategy.type !== "local_bind") {
     return void 0;
   }
-  return isAbsolute3(entry.source) ? entry.source : void 0;
+  return (0, import_node_path5.isAbsolute)(entry.source) ? entry.source : void 0;
 }
 function pathWithinLogicalRoot(path3, root) {
   return path3 === root || path3.startsWith(`${root}/`);
@@ -71315,14 +71311,14 @@ function nearestExistingPath(path3) {
   let current = path3;
   while (true) {
     try {
-      lstatSync(current);
+      (0, import_node_fs4.lstatSync)(current);
       return current;
     } catch (error51) {
       if (error51.code !== "ENOENT") {
         throw error51;
       }
     }
-    const parent = dirname3(current);
+    const parent = (0, import_node_path5.dirname)(current);
     if (parent === current) {
       return void 0;
     }
@@ -71331,7 +71327,7 @@ function nearestExistingPath(path3) {
 }
 function realpathForValidation(path3, originalPath) {
   try {
-    return realpathSync(path3);
+    return (0, import_node_fs4.realpathSync)(path3);
   } catch {
     throw new UserError(`Sandbox path "${originalPath}" escapes the workspace root.`);
   }
@@ -71356,9 +71352,9 @@ var UnixLocalSandboxEditor = class {
     const filePath = this.session.resolveSandboxPath(operation.path, {
       forWrite: true
     });
-    await mkdir3(dirname3(filePath), { recursive: true });
+    await (0, import_promises3.mkdir)((0, import_node_path5.dirname)(filePath), { recursive: true });
     const content = applyDiff("", operation.diff, "create");
-    await writeFile(filePath, content, { encoding: "utf8", flag: "wx" });
+    await (0, import_promises3.writeFile)(filePath, content, { encoding: "utf8", flag: "wx" });
     if (identity) {
       await applyOwnershipRecursive(filePath, identity.uid, identity.gid);
     }
@@ -71371,12 +71367,12 @@ var UnixLocalSandboxEditor = class {
       forWrite: true
     });
     const destinationPath = moveTo ? this.session.resolveSandboxPath(moveTo, { forWrite: true }) : filePath;
-    const current = await readFile2(filePath, "utf8");
+    const current = await (0, import_promises3.readFile)(filePath, "utf8");
     const next = applyDiff(current, operation.diff);
-    await mkdir3(dirname3(destinationPath), { recursive: true });
-    await writeFile(destinationPath, next, "utf8");
+    await (0, import_promises3.mkdir)((0, import_node_path5.dirname)(destinationPath), { recursive: true });
+    await (0, import_promises3.writeFile)(destinationPath, next, "utf8");
     if (moveTo && destinationPath !== filePath) {
-      await unlink(filePath);
+      await (0, import_promises3.unlink)(filePath);
     }
     if (identity) {
       await applyOwnershipRecursive(destinationPath, identity.uid, identity.gid);
@@ -71388,7 +71384,7 @@ var UnixLocalSandboxEditor = class {
     const filePath = this.session.resolveSandboxPath(operation.path, {
       forWrite: true
     });
-    await unlink(filePath);
+    await (0, import_promises3.unlink)(filePath);
     return {};
   }
 };
@@ -71430,7 +71426,7 @@ function translateWorkspaceRootCommandOutput(output, manifestRoot, workspaceRoot
 function workspaceRootOutputPaths(workspaceRootPath) {
   const paths = [workspaceRootPath];
   try {
-    paths.push(realpathSync(workspaceRootPath));
+    paths.push((0, import_node_fs4.realpathSync)(workspaceRootPath));
   } catch {
     return paths;
   }
@@ -71543,7 +71539,7 @@ ${truncate(redactSecrets(value), maxLength)}
 
 // src/agent/runner.ts
 async function runReadOnlyAgent(config2, context, workspace) {
-  const manifest = new Manifest({ entries: { repo: localDir({ src: path2.resolve(workspace) }) } });
+  const manifest = new Manifest({ entries: { repo: localDir({ src: import_node_path6.default.resolve(workspace) }) } });
   const agent = new SandboxAgent({
     name: "Repository assistant",
     model: config2.model,
@@ -71715,11 +71711,11 @@ function authorize(context, config2) {
 }
 
 // src/result.ts
-import { appendFileSync } from "node:fs";
+var import_node_fs5 = require("node:fs");
 function writeOutputs(result) {
   const output = process.env.GITHUB_OUTPUT;
   const values = { triggered: String(result.triggered), conclusion: result.conclusion, comment_id: String(result.commentId ?? ""), branch: result.branch ?? "", pull_request_number: String(result.pullRequestNumber ?? ""), input_tokens: String(result.inputTokens), output_tokens: String(result.outputTokens), estimated_cost_usd: result.estimatedCostUsd === void 0 ? "" : String(result.estimatedCostUsd) };
-  if (output) appendFileSync(output, Object.entries(values).map(([key, value]) => `${key}=${value}`).join("\n") + "\n");
+  if (output) (0, import_node_fs5.appendFileSync)(output, Object.entries(values).map(([key, value]) => `${key}=${value}`).join("\n") + "\n");
   else for (const [key, value] of Object.entries(values)) process.stdout.write(`::set-output name=${key}::${value}
 `);
 }
@@ -71744,7 +71740,7 @@ async function main() {
   const eventPath = process.env.GITHUB_EVENT_PATH ?? process.env.GITEA_EVENT_PATH;
   const eventName = process.env.GITHUB_EVENT_NAME ?? process.env.GITEA_EVENT_NAME;
   if (!eventPath || !eventName) throw new Error("event path and event name are required");
-  const payload = JSON.parse(await readFile3(eventPath, "utf8"));
+  const payload = JSON.parse(await (0, import_promises4.readFile)(eventPath, "utf8"));
   const platform = process.env.GITHUB_ACTIONS === "true" ? "github" : "gitea";
   const context = normalizeEvent(platform, eventName, payload, process.env.GITHUB_DELIVERY);
   const trigger = matchTrigger(context, config2), auth = authorize(context, config2);

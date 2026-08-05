@@ -33,7 +33,7 @@ runs:
   using: composite
   steps:
     - shell: bash
-      run: node "${{ github.action_path }}/dist/index.js"
+      run: node "${{ github.action_path }}/dist/index.cjs"
       env:
         INPUT_OPENAI_API_KEY: ${{ inputs.openai_api_key }}
         INPUT_GITEA_TOKEN: ${{ inputs.gitea_token }}
