@@ -5,11 +5,13 @@ and pull-request requests with an OpenAI coding agent. API credentials and write
 authorization remain in the trusted host process; they are never intended to be
 passed into the agent sandbox.
 
-> **Project status:** read-only question and review runs are implemented. The
-> checked-out repository is staged into a Unix-local sandbox inside the runner
-> job container; the OpenAI and forge credentials are retained by the host
-> process. Branch, commit, push, and pull-request mutation tools are not yet
-> implemented.
+> **Project status:** read-only question and review runs are implemented. Issue
+> and pull-request metadata, comments, the changed-file summary, and the unified
+> diff are fetched over the forge API and embedded in the prompt as delimited
+> untrusted data. The checked-out repository is staged into a Unix-local sandbox
+> inside the runner job container; the OpenAI and forge credentials are retained
+> by the host process. Branch, commit, push, and pull-request mutation tools are
+> not yet implemented.
 
 ## Setup
 
@@ -105,9 +107,10 @@ to your runner's event contract. The action currently detects GitHub by
 | `forge_url` | runner URL | Gitea server URL or GitHub API URL; required to post tracking comments. |
 | `model` | `gpt-5.6-terra` | OpenAI model selected for the run. |
 | `reasoning_effort` | `medium` | `low`, `medium`, `high`, or `xhigh`. |
-| `trigger_phrase` | `@codex` | Case-insensitive text trigger. |
+| `trigger_phrase` | `@codex` | Comma- or newline-separated trigger phrases, matched case-insensitively on whole words. |
 | `assignee_trigger` / `label_trigger` | empty | Optional assignee or label triggers. |
 | `allowed_actors` | empty | Comma-separated actor allowlist; empty permits all non-bot actors. |
+| `custom_instructions` | empty | Trusted operator instructions appended to the agent's system prompt. |
 | `branch_prefix` | `codex/` | Required prefix for generated work branches. |
 | `max_turns` / `timeout_minutes` | `25` / `30` | Reserved limits for agent execution. |
 | `sandbox_mode` | `workspace-write` | Reserved sandbox policy. |

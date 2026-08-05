@@ -7,7 +7,7 @@ inputs:
   forge_url: { description: Gitea server URL (defaults to GITEA_URL) or GitHub API URL, required: false, default: "" }
   model: { description: OpenAI model, required: false, default: gpt-5.6-terra }
   reasoning_effort: { description: Model reasoning effort, required: false, default: medium }
-  trigger_phrase: { description: Mention that starts the action, required: false, default: "@codex" }
+  trigger_phrase: { description: "Comma- or newline-separated mentions that start the action", required: false, default: "@codex" }
   assignee_trigger: { description: Optional assignee login trigger, required: false, default: "" }
   label_trigger: { description: Optional label trigger, required: false, default: "" }
   allowed_actors: { description: Comma-separated authorized actors, required: false, default: "" }
