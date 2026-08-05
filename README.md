@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: 9cb14c1ec0/gitea-codex-action@master # Replace with a version tag when released.
         with:
-          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          apiKey: ${{ secrets.OPENAI_API_KEY }}
           gitea_token: ${{ secrets.GITHUB_TOKEN }}
           forge_url: ${{ github.api_url }}
           allowed_actors: your-github-login
