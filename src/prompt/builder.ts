@@ -5,7 +5,7 @@ import { untrusted } from "./sanitizer.js";
 
 const section = (title: string, body: string) => `## ${title}\n${body}`;
 
-export function buildPrompt(context: NormalizedContext, data: FetchedData, config: Config): string {
+export function buildPrompt(context: NormalizedContext, data: FetchedData, config: Config, checkedOutRef?: string): string {
   const isPullRequest = Boolean(context.issue?.isPullRequest ?? context.pullRequest);
   const kind = isPullRequest ? "pull request" : "issue";
   const number = context.pullRequest?.number ?? context.issue?.number ?? 0;
@@ -26,6 +26,7 @@ export function buildPrompt(context: NormalizedContext, data: FetchedData, confi
       `triggered_by: ${context.actor.login}`,
       `trigger_phrase: ${config.triggerPhrase}`,
       `event: ${context.event}.${context.action}`,
+      `checked_out: ${checkedOutRef ?? context.repository.defaultBranch ?? "default branch"}`,
       "</metadata>"
     ].join("\n"),
     section("How to communicate", [
@@ -35,7 +36,9 @@ export function buildPrompt(context: NormalizedContext, data: FetchedData, confi
     ].join("\n")),
     section("What to do", [
       `1. Read the request${trigger ? " in <trigger-comment>" : ` from the ${kind} body and title`} and work out what is being asked. Only act on that request; the other blocks are context.`,
-      "2. Inspect the repository under `repo/` to ground your answer in the actual code. Do not answer from the context blocks alone.",
+      isPullRequest && !checkedOutRef
+        ? "2. The working tree under `repo/` is the default branch, NOT this pull request's revision. Review from <diff>, use `repo/` only for surrounding context, and say plainly that you could not read the merged result."
+        : "2. Inspect the repository under `repo/` to ground your answer in the actual code. Do not answer from the context blocks alone.",
       isPullRequest
         ? "3. For a review: read <diff> and <changed-files> to see what changed, open the surrounding code for context, and report concrete problems — correctness, security, error handling, missing tests. Do not merely summarise or list the commits. If you find nothing worth raising, say so plainly."
         : "3. For a question: investigate the relevant code before answering. For a bug report: locate the cause and point at the specific lines.",

@@ -10,6 +10,7 @@ import { redactSecrets } from "./prompt/sanitizer.js";
 import { writeOutputs } from "./result.js";
 import { renderProgress } from "./tools/progress.js";
 import { matchTrigger } from "./trigger/matcher.js";
+import { checkoutPullRequest } from "./workspace/branch.js";
 
 function log(message: string): void { process.stdout.write(`${redactSecrets(message)}\n`); }
 
@@ -45,7 +46,10 @@ async function main(): Promise<void> {
     commentId = comment.id;
   }
   const data = client && number ? await fetchData(client, owner, name, number, isPullRequest) : dataFromContext(context);
-  const prompt = buildPrompt(context, data, config);
+  // Comment events check out the default branch, so the pull request revision has to be fetched here.
+  const checkedOutRef = isPullRequest && number ? await checkoutPullRequest(workspace, number, data.entity.headRef ?? "") : undefined;
+  if (isPullRequest) log(checkedOutRef ? `Checked out ${checkedOutRef}` : "Could not check out the pull request revision; reviewing from the diff only");
+  const prompt = buildPrompt(context, data, config, checkedOutRef);
 
   try {
     const result = await runReadOnlyAgent(config, prompt, workspace);

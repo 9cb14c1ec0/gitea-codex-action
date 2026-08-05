@@ -45419,13 +45419,13 @@ async function resolveInterruptedTurn(agent, originalInput, originalPreStepItems
       }
     }
   }
-  const functionToolRuns = processedResponse.functions.filter((run2) => {
-    const callId = run2.toolCall.callId;
+  const functionToolRuns = processedResponse.functions.filter((run3) => {
+    const callId = run3.toolCall.callId;
     if (!callId) {
       return false;
     }
     const isApprovedCall = functionCallIds.includes(callId);
-    const isPendingNested = state.hasPendingAgentToolRun(getFunctionToolQualifiedName(run2.tool) ?? run2.tool.name, callId);
+    const isPendingNested = state.hasPendingAgentToolRun(getFunctionToolQualifiedName(run3.tool) ?? run3.tool.name, callId);
     if (!isApprovedCall && !isPendingNested) {
       return false;
     }
@@ -58981,10 +58981,10 @@ var AssistantStream = class extends EventStream {
     }));
     return runner;
   }
-  async _createToolAssistantStream(run2, runId, params, options) {
+  async _createToolAssistantStream(run3, runId, params, options) {
     this._listenForAbort(options?.signal);
     const body = { ...params, stream: true };
-    const stream = await run2.submitToolOutputs(runId, body, {
+    const stream = await run3.submitToolOutputs(runId, body, {
       ...options,
       signal: this.controller.signal
     });
@@ -59052,10 +59052,10 @@ var AssistantStream = class extends EventStream {
     }
     return this._addRun(__classPrivateFieldGet(this, _AssistantStream_instances, "m", _AssistantStream_endRequest).call(this));
   }
-  async _createAssistantStream(run2, threadId, params, options) {
+  async _createAssistantStream(run3, threadId, params, options) {
     this._listenForAbort(options?.signal);
     const body = { ...params, stream: true };
-    const stream = await run2.create(threadId, body, { ...options, signal: this.controller.signal });
+    const stream = await run3.create(threadId, body, { ...options, signal: this.controller.signal });
     this._connected();
     for await (const event of stream) {
       __classPrivateFieldGet(this, _AssistantStream_instances, "m", _AssistantStream_addEvent).call(this, event);
@@ -59118,8 +59118,8 @@ var AssistantStream = class extends EventStream {
     }
     return acc;
   }
-  _addRun(run2) {
-    return run2;
+  _addRun(run3) {
+    return run3;
   }
   async _threadAssistantStream(params, thread, options) {
     return await this._createThreadAssistantStream(thread, params, options);
@@ -59457,8 +59457,8 @@ var Runs = class extends APIResource {
    * https://platform.openai.com/docs/assistants/how-it-works/runs-and-run-steps
    */
   async createAndPoll(threadId, body, options) {
-    const run2 = await this.create(threadId, body, options);
-    return await this.poll(run2.id, { thread_id: threadId }, options);
+    const run3 = await this.create(threadId, body, options);
+    return await this.poll(run3.id, { thread_id: threadId }, options);
   }
   /**
    * Create a Run stream
@@ -59482,11 +59482,11 @@ var Runs = class extends APIResource {
       }
     ]);
     while (true) {
-      const { data: run2, response } = await this.retrieve(runId, params, {
+      const { data: run3, response } = await this.retrieve(runId, params, {
         ...options,
         headers: { ...options?.headers, ...headers }
       }).withResponse();
-      switch (run2.status) {
+      switch (run3.status) {
         //If we are in any sort of intermediate state we poll
         case "queued":
         case "in_progress":
@@ -59512,7 +59512,7 @@ var Runs = class extends APIResource {
         case "completed":
         case "failed":
         case "expired":
-          return run2;
+          return run3;
       }
     }
   }
@@ -59539,8 +59539,8 @@ var Runs = class extends APIResource {
    * https://platform.openai.com/docs/assistants/how-it-works/runs-and-run-steps
    */
   async submitToolOutputsAndPoll(runId, params, options) {
-    const run2 = await this.submitToolOutputs(runId, params, options);
-    return await this.poll(run2.id, params, options);
+    const run3 = await this.submitToolOutputs(runId, params, options);
+    return await this.poll(run3.id, params, options);
   }
   /**
    * Submit the tool outputs from a previous run and stream the run to a terminal
@@ -59626,8 +59626,8 @@ var Threads2 = class extends APIResource {
    * https://platform.openai.com/docs/assistants/how-it-works/runs-and-run-steps
    */
   async createAndRunPoll(body, options) {
-    const run2 = await this.createAndRun(body, options);
-    return await this.runs.poll(run2.id, { thread_id: run2.thread_id }, options);
+    const run3 = await this.createAndRun(body, options);
+    return await this.runs.poll(run3.id, { thread_id: run3.thread_id }, options);
   }
   /**
    * Create a thread and stream the run back
@@ -71816,7 +71816,7 @@ function authorize(context, config2) {
 // src/prompt/builder.ts
 var section = (title, body) => `## ${title}
 ${body}`;
-function buildPrompt(context, data, config2) {
+function buildPrompt(context, data, config2, checkedOutRef) {
   const isPullRequest = Boolean(context.issue?.isPullRequest ?? context.pullRequest);
   const kind = isPullRequest ? "pull request" : "issue";
   const number5 = context.pullRequest?.number ?? context.issue?.number ?? 0;
@@ -71836,6 +71836,7 @@ function buildPrompt(context, data, config2) {
       `triggered_by: ${context.actor.login}`,
       `trigger_phrase: ${config2.triggerPhrase}`,
       `event: ${context.event}.${context.action}`,
+      `checked_out: ${checkedOutRef ?? context.repository.defaultBranch ?? "default branch"}`,
       "</metadata>"
     ].join("\n"),
     section("How to communicate", [
@@ -71845,7 +71846,7 @@ function buildPrompt(context, data, config2) {
     ].join("\n")),
     section("What to do", [
       `1. Read the request${trigger ? " in <trigger-comment>" : ` from the ${kind} body and title`} and work out what is being asked. Only act on that request; the other blocks are context.`,
-      "2. Inspect the repository under `repo/` to ground your answer in the actual code. Do not answer from the context blocks alone.",
+      isPullRequest && !checkedOutRef ? "2. The working tree under `repo/` is the default branch, NOT this pull request's revision. Review from <diff>, use `repo/` only for surrounding context, and say plainly that you could not read the merged result." : "2. Inspect the repository under `repo/` to ground your answer in the actual code. Do not answer from the context blocks alone.",
       isPullRequest ? "3. For a review: read <diff> and <changed-files> to see what changed, open the surrounding code for context, and report concrete problems \u2014 correctness, security, error handling, missing tests. Do not merely summarise or list the commits. If you find nothing worth raising, say so plainly." : "3. For a question: investigate the relevant code before answering. For a bug report: locate the cause and point at the specific lines.",
       "4. End with a short summary of what you checked, and state anything you could not determine."
     ].join("\n")),
@@ -71903,6 +71904,29 @@ function matchTrigger(context, config2) {
   return { triggered: false, reason: "no trigger matched" };
 }
 
+// src/workspace/branch.ts
+var import_node_child_process4 = require("node:child_process");
+var import_node_util = require("node:util");
+var run2 = (0, import_node_util.promisify)(import_node_child_process4.execFile);
+var DEFAULT_DEPTH = 20;
+var isSafeRef = (ref) => /^[A-Za-z0-9][A-Za-z0-9._/-]*$/.test(ref) && !ref.includes("..");
+var git = async (workspace, args) => {
+  await run2("git", args, { cwd: workspace });
+};
+async function checkoutPullRequest(workspace, number5, headRef, depth = DEFAULT_DEPTH) {
+  const candidates = [`refs/pull/${number5}/head`, ...headRef && isSafeRef(headRef) ? [headRef] : []];
+  for (const ref of candidates) {
+    try {
+      await git(workspace, ["fetch", "--depth", String(depth), "origin", ref]);
+      await git(workspace, ["checkout", "--detach", "FETCH_HEAD"]);
+      return ref;
+    } catch {
+      continue;
+    }
+  }
+  return void 0;
+}
+
 // src/index.ts
 function log(message) {
   process.stdout.write(`${redactSecrets(message)}
@@ -71938,7 +71962,9 @@ async function main() {
     commentId = comment.id;
   }
   const data = client && number5 ? await fetchData(client, owner, name, number5, isPullRequest) : dataFromContext(context);
-  const prompt2 = buildPrompt(context, data, config2);
+  const checkedOutRef = isPullRequest && number5 ? await checkoutPullRequest(workspace, number5, data.entity.headRef ?? "") : void 0;
+  if (isPullRequest) log(checkedOutRef ? `Checked out ${checkedOutRef}` : "Could not check out the pull request revision; reviewing from the diff only");
+  const prompt2 = buildPrompt(context, data, config2, checkedOutRef);
   try {
     const result = await runReadOnlyAgent(config2, prompt2, workspace);
     const summary = redactSecrets(result.answer);
