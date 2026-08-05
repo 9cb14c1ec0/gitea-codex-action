@@ -2,11 +2,31 @@ export class ApiError extends Error {
   constructor(readonly status: number, readonly url: string, message: string) { super(message); }
 }
 
+const withTrailingSlash = (url: string) => url.endsWith("/") ? url : `${url}/`;
+
+/**
+ * Derives the REST API root from a forge URL. Gitea servers are given `/api/v1/`;
+ * URLs that already point at an API root (`https://api.github.com`, GHE's `/api/v3`,
+ * or an explicit `/api/v1`) are left alone. Deliberately shape-based rather than
+ * keyed off platform detection, because Gitea's act_runner also sets
+ * `GITHUB_ACTIONS=true` and so cannot be distinguished by that env var alone.
+ */
+export function resolveApiBase(forgeUrl: string): string {
+  if (!forgeUrl) throw new Error("forge_url is required to reach the forge API");
+  const base = new URL(withTrailingSlash(forgeUrl));
+  if (/\/api\/v\d+\/$/.test(base.pathname) || base.hostname === "api.github.com") return base.toString();
+  return new URL("api/v1/", base).toString();
+}
+
 export class ForgeClient {
-  constructor(private readonly baseUrl: string, private readonly token: string, private readonly fetcher: typeof fetch = fetch) {}
+  private readonly baseUrl: string;
+  constructor(baseUrl: string, private readonly token: string, private readonly fetcher: typeof fetch = fetch) {
+    this.baseUrl = withTrailingSlash(baseUrl);
+  }
 
   async request<T>(method: string, pathname: string, body?: unknown): Promise<T> {
-    const url = new URL(pathname, this.baseUrl).toString();
+    // Relative join: a leading slash would discard the base's path (e.g. `/api/v1`).
+    const url = new URL(pathname.replace(/^\/+/, ""), this.baseUrl).toString();
     const options: RequestInit = { method, headers: { Accept: "application/json", Authorization: `token ${this.token}`, ...(body === undefined ? {} : { "Content-Type": "application/json" }) } };
     if (body !== undefined) options.body = JSON.stringify(body);
     const response = await this.fetcher(url, options);

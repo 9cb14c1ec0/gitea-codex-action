@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { runReadOnlyAgent } from "./agent/runner.js";
 import { loadConfig } from "./config.js";
 import { normalizeEvent } from "./gitea/context.js";
-import { ForgeClient } from "./gitea/client.js";
+import { ForgeClient, resolveApiBase } from "./gitea/client.js";
 import { authorize } from "./policy/authorization.js";
 import { redactSecrets } from "./prompt/sanitizer.js";
 import { writeOutputs } from "./result.js";
@@ -24,7 +24,7 @@ async function main(): Promise<void> {
     return;
   }
   const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
-  const apiBase = platform === "gitea" ? new URL("/api/v1/", config.forgeUrl).toString() : config.forgeUrl;
+  const apiBase = resolveApiBase(config.forgeUrl);
   const client = config.giteaToken && context.issue ? new ForgeClient(apiBase, config.giteaToken) : undefined;
   let commentId: number | undefined;
   if (client && context.issue) {

@@ -71668,17 +71668,24 @@ var ApiError = class extends Error {
   status;
   url;
 };
+var withTrailingSlash = (url2) => url2.endsWith("/") ? url2 : `${url2}/`;
+function resolveApiBase(forgeUrl) {
+  if (!forgeUrl) throw new Error("forge_url is required to reach the forge API");
+  const base = new URL(withTrailingSlash(forgeUrl));
+  if (/\/api\/v\d+\/$/.test(base.pathname) || base.hostname === "api.github.com") return base.toString();
+  return new URL("api/v1/", base).toString();
+}
 var ForgeClient = class {
   constructor(baseUrl, token, fetcher = fetch) {
-    this.baseUrl = baseUrl;
     this.token = token;
     this.fetcher = fetcher;
+    this.baseUrl = withTrailingSlash(baseUrl);
   }
-  baseUrl;
   token;
   fetcher;
+  baseUrl;
   async request(method, pathname, body) {
-    const url2 = new URL(pathname, this.baseUrl).toString();
+    const url2 = new URL(pathname.replace(/^\/+/, ""), this.baseUrl).toString();
     const options = { method, headers: { Accept: "application/json", Authorization: `token ${this.token}`, ...body === void 0 ? {} : { "Content-Type": "application/json" } } };
     if (body !== void 0) options.body = JSON.stringify(body);
     const response = await this.fetcher(url2, options);
@@ -71750,7 +71757,7 @@ async function main() {
     return;
   }
   const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
-  const apiBase = platform === "gitea" ? new URL("/api/v1/", config2.forgeUrl).toString() : config2.forgeUrl;
+  const apiBase = resolveApiBase(config2.forgeUrl);
   const client = config2.giteaToken && context.issue ? new ForgeClient(apiBase, config2.giteaToken) : void 0;
   let commentId;
   if (client && context.issue) {
