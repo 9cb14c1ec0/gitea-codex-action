@@ -88,7 +88,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: 9cb14c1ec0/gitea-codex-action@master # Replace with a version tag when released.
         with:
-          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          apiKey: ${{ secrets.OPENAI_API_KEY }}
           gitea_token: ${{ secrets.GITEA_TOKEN }}
           forge_url: https://git.example.com
           allowed_actors: your-gitea-login
@@ -102,7 +102,7 @@ to your runner's event contract. The action currently detects GitHub by
 
 | Input | Default | Description |
 | --- | --- | --- |
-| `openai_api_key` | required | OpenAI API key. |
+| `apiKey` | required | OpenAI API key. |
 | `gitea_token` | runner token | Forge API token; defaults to `GITEA_TOKEN` or `GITHUB_TOKEN`. |
 | `forge_url` | runner URL | Gitea server URL or GitHub API URL; required to post tracking comments. |
 | `model` | `gpt-5.6-terra` | OpenAI model selected for the run. |
