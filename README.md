@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: 9cb14c1ec0/gitea-codex-action@master # Replace with a version tag when released.
+      - uses: 9cb14c1ec0/gitea-codex-action@v0.1.0
         with:
           apiKey: ${{ secrets.OPENAI_API_KEY }}
           gitea_token: ${{ secrets.GITHUB_TOKEN }}
@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: 9cb14c1ec0/gitea-codex-action@master # Replace with a version tag when released.
+      - uses: 9cb14c1ec0/gitea-codex-action@v0.1.0
         with:
           apiKey: ${{ secrets.OPENAI_API_KEY }}
           gitea_token: ${{ secrets.GITEA_TOKEN }}
