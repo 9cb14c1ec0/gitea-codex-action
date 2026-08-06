@@ -10,7 +10,9 @@ const bot = (value: unknown) => { const item = record(value); return Boolean(ite
 
 export function normalizeEvent(platform: Platform, eventName: string, payload: unknown, deliveryId?: string): NormalizedContext {
   const value = record(payload), repo = record(value.repository), owner = record(repo.owner);
-  const issueRaw = record(value.issue), prRaw = record(value.pull_request), commentRaw = record(value.comment);
+  const issueRaw = record(value.issue), prRaw = record(value.pull_request);
+  // A submitted PR review carries its text in `review`, not `comment`.
+  const commentRaw = Object.keys(record(value.comment)).length ? record(value.comment) : record(value.review);
   const source = Object.keys(issueRaw).length ? issueRaw : prRaw;
   const issue = Object.keys(source).length ? {
     number: number(source.number), title: text(source.title), body: text(source.body), author: login(source.user),
