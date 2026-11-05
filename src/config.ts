@@ -24,7 +24,7 @@ const input = (name: string, fallback = "") => process.env[`INPUT_${name}`] ?? f
 export function loadConfig(): Config {
   const parsed = schema.parse({
     openaiApiKey: input("OPENAI_API_KEY"), giteaToken: input("GITEA_TOKEN", process.env.GITEA_TOKEN ?? process.env.GITHUB_TOKEN ?? ""), forgeUrl: input("FORGE_URL", process.env.GITEA_URL ?? process.env.GITHUB_API_URL ?? ""),
-    model: input("MODEL", "gpt-5.6-terra"), reasoningEffort: input("REASONING_EFFORT", "medium"),
+    model: input("MODEL", "gpt-6-sol"), reasoningEffort: input("REASONING_EFFORT", "medium"),
     triggerPhrases: input("TRIGGER_PHRASE", "@codex"), assigneeTrigger: input("ASSIGNEE_TRIGGER"), labelTrigger: input("LABEL_TRIGGER"),
     allowedActors: input("ALLOWED_ACTORS"), baseBranch: input("BASE_BRANCH"), branchPrefix: input("BRANCH_PREFIX", "codex/"),
     customInstructions: input("CUSTOM_INSTRUCTIONS"), maxTurns: input("MAX_TURNS", "25"), timeoutMinutes: input("TIMEOUT_MINUTES", "30"),

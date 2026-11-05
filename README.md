@@ -105,7 +105,7 @@ to your runner's event contract. The action currently detects GitHub by
 | `apiKey` | required | OpenAI API key. |
 | `gitea_token` | runner token | Forge API token; defaults to `GITEA_TOKEN` or `GITHUB_TOKEN`. |
 | `forge_url` | runner URL | Gitea server URL or GitHub API URL; required to post tracking comments. |
-| `model` | `gpt-5.6-terra` | OpenAI model selected for the run. |
+| `model` | `gpt-6-sol` | OpenAI model selected for the run. |
 | `reasoning_effort` | `medium` | `low`, `medium`, `high`, or `xhigh`. |
 | `trigger_phrase` | `@codex` | Comma- or newline-separated trigger phrases, matched case-insensitively on whole words. |
 | `assignee_trigger` / `label_trigger` | empty | Optional assignee or label triggers. |

@@ -149,7 +149,7 @@ Initial action inputs:
 |---|---|---|
 | `openai_api_key` | Required | OpenAI API credential |
 | `gitea_token` | Runner token | Gitea/GitHub API access |
-| `model` | `gpt-5.6-terra` | OpenAI model |
+| `model` | `gpt-6-sol` | OpenAI model |
 | `reasoning_effort` | `medium` | Reasoning level |
 | `trigger_phrase` | `@codex` | Comment/body trigger |
 | `assignee_trigger` | Empty | Optional assignment trigger |

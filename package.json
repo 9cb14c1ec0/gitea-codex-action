@@ -4,7 +4,9 @@
   "private": true,
   "description": "A secure OpenAI coding-agent action for Gitea and GitHub",
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --format=cjs --target=node22 --outfile=dist/index.cjs",
     "typecheck": "tsc --noEmit",
@@ -15,18 +17,17 @@
     "check": "npm run typecheck && npm run lint && npm test"
   },
   "dependencies": {
-    "@openai/agents": "0.13.5",
-    "zod": "4.4.3"
+    "@openai/agents": "0.18.0",
+    "zod": "4.6.5"
   },
   "devDependencies": {
-    "@eslint/js": "9.39.4",
-    "@types/node": "24.10.1",
-    "eslint": "9.39.4",
-    "esbuild": "0.28.1",
-    "prettier": "3.7.4",
-    "tsup": "8.5.1",
-    "typescript": "5.9.3",
-    "typescript-eslint": "8.56.1",
-    "vitest": "4.1.10"
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.13.6",
+    "esbuild": "0.28.2",
+    "eslint": "10.11.0",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.1",
+    "vitest": "5.0.1"
   }
 }
